@@ -1,0 +1,79 @@
+package model;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+class PersonTest2 {
+
+	@Test
+	void testPerson_contructor1() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testPerson_contructor2() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testGetFirstName() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testGetmiddleName() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testGetLastName() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testGetParents() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testGetChildren() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testGetDateOfBirth() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testSetFirstName() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testSetmiddleName() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testSetLastName() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testSetParents() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testSetChildren() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	void testSetDateOfBirth() {
+		fail("Not yet implemented");
+	}
+
+}
