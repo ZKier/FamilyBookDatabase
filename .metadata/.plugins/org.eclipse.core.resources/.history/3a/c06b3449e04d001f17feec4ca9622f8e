@@ -20,7 +20,7 @@ public class OverviewController {
     @FXML
     private Label middleNameLabel;
     @FXML
-    private Label lastNameLabel;
+    private Label lastLabel;
     @FXML
     private Label parentsLabel;
     @FXML
@@ -63,33 +63,4 @@ public class OverviewController {
         personTable.setItems(mainApp.getPersonData());
     }
 
-    /**
-     * Fills all text fields to show details about the person.
-     * If the specified person is null, all text fields are cleared.
-     * 
-     * @param person the person or null
-     */
-    private void showPersonDetails(Person person) {
-        if (person != null) {
-            // Fill the labels with info from the person object.
-            firstNameLabel.setText(person.getFirstName());
-            middleNameLabel.setText(person.getmiddleName());
-            lastNameLabel.setText(person.getLastName());
-            
-            parentsLabel.setText(Integer.toString(person.getParents()));
-            childrenLabel.setText(Integer.toString(person.getChildren()));
-
-            // TODO: We need a way to convert the birthday into a String! 
-            // birthdayLabel.setText(...);
-        } else {
-            // Person is null, remove all the text.
-            firstNameLabel.setText("");
-            middleNameLabel.setText("");
-            lastNameLabel.setText("");
-            
-            parentsLabel.setText("");
-            childrenLabel.setText("");
-            dateOfBirthLabel.setText("");
-        }
-    }
 }
