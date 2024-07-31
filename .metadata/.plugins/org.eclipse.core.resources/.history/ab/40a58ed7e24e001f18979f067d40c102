@@ -24,24 +24,13 @@ public class Person {
 	
 	public Person(String firstName, String lastName) {
 		this.firstName = new SimpleStringProperty(firstName);
-		this.middleName = new SimpleStringProperty("N/A");
+		this.middleName = new SimpleStringProperty("");
 		this.lastName = new SimpleStringProperty(lastName);
 		
 		// Some initial dummy data, just for convenient testing.
 		this.parents = new SimpleIntegerProperty(0);
 		this.children = new SimpleIntegerProperty(0);
 		this.dateOfBirth = new SimpleObjectProperty<LocalDate>(LocalDate.of(1999, 2, 21));
-	}
-	
-	public Person(String firstName, String lastName, int month, int day, int year) {
-		this.firstName = new SimpleStringProperty(firstName);
-		this.middleName = new SimpleStringProperty("N/A");
-		this.lastName = new SimpleStringProperty(lastName);
-		
-		// Some initial dummy data, just for convenient testing.
-		this.parents = new SimpleIntegerProperty(0);
-		this.children = new SimpleIntegerProperty(0);
-		this.dateOfBirth = new SimpleObjectProperty<LocalDate>(LocalDate.of(year, month, day));
 	}
 	
 	//Get Methods
