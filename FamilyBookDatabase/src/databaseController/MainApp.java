@@ -22,15 +22,15 @@ public class MainApp extends Application {
     
     public MainApp() {
 		// Sample data
-		personData.add(new Person("Hans", "Muster"));
-		personData.add(new Person("Ruth", "Mueller"));
-		personData.add(new Person("Heinz", "Kurz"));
-		personData.add(new Person("Cornelia", "Meier"));
-		personData.add(new Person("Werner", "Meyer"));
-		personData.add(new Person("Lydia", "Kunz"));
-		personData.add(new Person("Anna", "Best"));
-		personData.add(new Person("Stefan", "Meier"));
-		personData.add(new Person("Martin", "Mueller"));
+		personData.add(new Person("Kacey", "Monster"));
+		personData.add(new Person("Roddrick", "Keller"));
+		personData.add(new Person("Mistriss", "Rains"));
+		personData.add(new Person("Famrik", "Kins"));
+		personData.add(new Person("Podrey", "Spays"));
+		personData.add(new Person("Assata", "Ritz"));
+		personData.add(new Person("Promethius", "Kiss"));
+		personData.add(new Person("Steeve", "Powers"));
+		personData.add(new Person("Mitchell", "Lumphrey"));
 	}
     
     //Lists Persons
