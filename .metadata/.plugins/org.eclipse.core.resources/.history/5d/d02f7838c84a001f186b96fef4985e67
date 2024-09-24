@@ -1,6 +1,0 @@
-module FamilyBookDatabase {
-	requires javafx.controls;
-	requires javafx.fxml;
-	
-	opens MainApp to javafx.graphics, javafx.fxml;
-}
