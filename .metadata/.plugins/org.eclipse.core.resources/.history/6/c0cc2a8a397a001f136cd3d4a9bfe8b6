@@ -49,7 +49,7 @@ public class Person {
 		return firstName.get();
 	}
 	
-	public String getMiddleName() {
+	public String getmiddleName() {
 		return middleName.get();
 	}
 	
