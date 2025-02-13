@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -44,7 +45,7 @@ public class Person {
 		this.dateOfBirth = new SimpleObjectProperty<LocalDate>(LocalDate.of(year, month, day));
 	}
 	
-	//Get Methods
+	// Get Methods
 	public String getFirstName() {
 		return firstName.get();
 	}
@@ -77,8 +78,16 @@ public class Person {
 		return children.get();
 	}
 	
+	// I want this to have several optional parameters for return formatting | might worry about this later
 	public LocalDate getDateOfBirth() {
 		return dateOfBirth.get();
+	}
+	
+	public LocalDate getFormattedDateOfBirth() {
+		// create a formatter
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM uuuu");
+        LocalDate ld = LocalDate.parse((CharSequence)this.getDateOfBirth().toString(), formatter);
+        return ld;
 	}
 	
 	//Set Methods

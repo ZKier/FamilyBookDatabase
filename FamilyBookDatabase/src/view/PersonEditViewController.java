@@ -26,7 +26,13 @@ public class PersonEditViewController {
     private Person person;
     private boolean okClicked = false;
     
+    // The constructor.
+    // The constructor is called before the initialize() method.
+    public PersonEditViewController() {
+    }
+    
     //initializes the controller class
+    @FXML
     private void initialize() {
     }
     
@@ -35,7 +41,7 @@ public class PersonEditViewController {
         this.dialogStage = dialogStage;
     }
     
-    //Sets the textfield's information using the person information
+    // Sets the textfield's information using the person information
     public void setPerson(Person person) {
         this.person = person;
 
@@ -61,30 +67,26 @@ public class PersonEditViewController {
     @FXML
     private void handleOk() {
         if (isInputValid()) {
-            person.setFirstName(firstNameField.getText());
-            person.setLastName(lastNameField.getText());
-            person.setStreet(streetField.getText());
-            person.setPostalCode(Integer.parseInt(postalCodeField.getText()));
-            person.setCity(cityField.getText());
-            person.setBirthday(DateUtil.parse(birthdayField.getText()));
+            person.setFirstName(firstNameTextField.getText());
+            person.setMiddleName(middleNameTextField.getText());
+            person.setLastName(lastNameTextField.getText());
+            //person.setPostalCode(Integer.parseInt(postalCodeField.getText()));
+            //person.setCity(cityField.getText());
+            //person.setBirthday(DateUtil.parse(birthdayField.getText()));
 
             okClicked = true;
             dialogStage.close();
         }
     }
-    /**
-     * Called when the user clicks cancel.
-     */
+    
+    // Called when the user clicks cancel.
     @FXML
     private void handleCancel() {
         dialogStage.close();
     }
 
-    /**
-     * Validates the user input in the text fields.
-     * 
-     * @return true if the input is valid
-     */
+    // Validates the user input in the text fields.
+    // @return true if the input is valid
     private boolean isInputValid() {
         String errorMessage = "";
 
@@ -98,6 +100,8 @@ public class PersonEditViewController {
             errorMessage += "No valid last name!\n"; 
         }
 
+        // Parents handler
+        /*
         if (parentsTextField.getText() == null || parentsTextField.getText().length() == 0) {
             errorMessage += "No valid amount of parents!\n"; 
         } else {
@@ -108,7 +112,8 @@ public class PersonEditViewController {
                 errorMessage += "Value for 'Amount of Parents' invalid! (must be an integer)\n"; 
             }
         }
-
+*/
+        /*
         if (childrenTextField.getText() == null || childrenTextField.getText().length() == 0) {
             errorMessage += "Value for 'Amount of Children' missing!\n"; 
         } else {
@@ -118,7 +123,8 @@ public class PersonEditViewController {
         		errorMessage += "Value for 'Amount of Children' invalid! (must be an integer)\n";
         	}
         }
-
+        */
+/*
         if (birthdayField.getText() == null || birthdayField.getText().length() == 0) {
             errorMessage += "No valid birthday!\n";
         } else {
@@ -126,6 +132,20 @@ public class PersonEditViewController {
                 errorMessage += "No valid birthday. Use the format dd.mm.yyyy!\n";
             }
         }
+  */      
+        // Useful Information.
+        /*
+        if (parentsTextField.getText() == null || parentsTextField.getText().length() == 0) {
+            errorMessage += "No valid amount of parents!\n"; 
+        } else {
+            // try to parse the postal code into an int.
+            try {
+                Integer.parseInt(parentsTextField.getText());
+            } catch (NumberFormatException e) {
+                errorMessage += "Value for 'Amount of Parents' invalid! (must be an integer)\n"; 
+            }
+        }
+*/
 
         if (errorMessage.length() == 0) {
             return true;

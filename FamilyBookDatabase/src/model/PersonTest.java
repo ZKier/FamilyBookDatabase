@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDate;
 
 class PersonTest {
 	
@@ -29,38 +30,56 @@ class PersonTest {
 		person1.setFirstName("Love");
 		person1.setLastName("Powers");
 		
-		System.out.printf("%s %s\n" , person1.getFirstName(),  person1.getLastName());
+		System.out.printf("%s %s\n\n" , person1.getFirstName(),  person1.getLastName());
 	}
 
 	
 	static void testPerson_contructor2() {
 		System.out.println("testPerson_contructor2");
 		Person person1 = new Person("Grace", "Woodard");
-		System.out.printf("%s %s\n", person1.getFirstName(), person1.getLastName());
+		System.out.printf("%s %s\n\n", person1.getFirstName(), person1.getLastName());
 	}
 
 	static void testGetFirstName() {
-		System.out.println("Not yet implemented");
+		System.out.println("testGetFirstName");
+		Person person1 = new Person("Kacey", "Monster");
+		System.out.println("Expected: Kacey");
+		System.out.printf("Outcome: %s\n\n", person1.getFirstName());
 	}
 
 	static void testGetMiddleName() {
-		System.out.println("Not yet implemented");
+		System.out.println("testGetMiddleName");
+		Person person1 = new Person("Kacey", "Monster");
+		System.out.println("Expected: N/A");
+		System.out.printf("Outcome: %s\n\n", person1.getMiddleName());
 	}
 
 	static void testGetLastName() {
-		System.out.println("Not yet implemented");
+		System.out.println("testGetLastName");
+		Person person1 = new Person("Kacey", "Monster");
+		System.out.println("Expected: Monster");
+		System.out.printf("Outcome: %s\n\n", person1.getLastName());
 	}
 
 	static void testGetParents() {
-		System.out.println("Not yet implemented");
+		System.out.println("testGetParents");
+		Person person1 = new Person("Kacey", "Monster");
+		System.out.println("Expected: 0");
+		System.out.printf("Outcome: %d\n\n", person1.getParents());
 	}
 
 	static void testGetChildren() {
-		System.out.println("Not yet implemented");
+		System.out.println("testGetChildren");
+		Person person1 = new Person("Kacey", "Monster");
+		System.out.println("Expected: 0");
+		System.out.printf("Outcome: %d\n\n", person1.getChildren());
 	}
 
 	static void testGetDateOfBirth() {
-		System.out.println("Not yet implemented");
+		System.out.println("testGetDateOfBirth");
+		Person person1 = new Person("Kacey", "Monster");
+		System.out.println("Expected: 2/21/1999");
+		System.out.printf("Outcome: %s\n\n", person1.getFormattedDateOfBirth());
 	}
 
 	static void testSetFirstName() {
