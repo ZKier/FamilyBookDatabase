@@ -7,7 +7,7 @@ class PersonTest {
 		testPerson_contructor1();
 		testPerson_contructor2();
 		testGetFirstName();
-		testGetMiddleName();
+		testGetmiddleName();
 		testGetLastName();
 		testGetParents();
 		testGetChildren();
@@ -43,7 +43,7 @@ class PersonTest {
 		System.out.println("Not yet implemented");
 	}
 
-	static void testGetMiddleName() {
+	static void testGetmiddleName() {
 		System.out.println("Not yet implemented");
 	}
 
