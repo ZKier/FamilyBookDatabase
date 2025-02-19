@@ -1,17 +1,20 @@
 package databaseController;
 
 import java.io.IOException;
+import java.net.URL;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
+import javafx.stage.*;
 import model.Person;
 import view.OverviewController;
+import view.PersonEditViewController;
 
 public class MainApp extends Application {
 
@@ -33,7 +36,7 @@ public class MainApp extends Application {
 		personData.add(new Person("Mitchell", "Lumphrey"));
 	}
     
-    //Lists Persons
+    // Lists Persons
     public ObservableList<Person> getPersonData() {
 		return personData;
 	}
@@ -42,10 +45,15 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Family Book Database");
-
+        
+        // Adds an icon the the stage
+        URL imageUrl = getClass().getResource("/resources/images/database_image_freepik2.png");
+        this.primaryStage.getIcons().add(new Image(imageUrl.toExternalForm()));
+        
         initRootLayout();
 
         showPersonOverview();
+        
     }
     
     //Initializes the root layout.
@@ -65,7 +73,7 @@ public class MainApp extends Application {
         }
     }
 
-    //Shows the person overview inside the root layout.
+    // Shows the person overview inside the root layout.
     public void showPersonOverview() {
         try {
             // Load person overview.
@@ -76,12 +84,46 @@ public class MainApp extends Application {
             // Set person overview into the center of root layout.
             rootLayout.setCenter(personOverview);
 
-            // Give the controller access to the main app.
+            // Give the controller access to the MainApp.
             OverviewController controller = loader.getController();
+            //System.out.println(controller); // returns view.OverviewController@70cf0b45
             controller.setMainApp(this);
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    
+    // Allows the initialization of the edit view
+    public boolean showPersonEditOverview(Person person) {
+        try {
+            // Load the FXML file and create a new stage for the pop-up dialog.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("/view/PersonEditView.fxml"));
+            BorderPane page = (BorderPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Edit Person");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the person into the controller.
+            // Established this controller using SceneBuilder
+            PersonEditViewController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setPerson(person);
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+
+            return controller.isOkClicked();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
     }
     
