@@ -145,7 +145,6 @@ public class OverviewController {
     private void handleEditPerson() {
         Person selectedPerson = personTable.getSelectionModel().getSelectedItem();
         if (selectedPerson != null) {
-        	System.out.println(selectedPerson.getFirstName()); // Prints the first name so someone is selected
             boolean okClicked = mainApp.showPersonEditOverview(selectedPerson);
             if (okClicked) {
                 showPersonDetails(selectedPerson);

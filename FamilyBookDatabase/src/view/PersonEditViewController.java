@@ -1,11 +1,14 @@
 package view;
 
+import java.net.URL;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import model.Person;
 import util.DateUtil;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class PersonEditViewController {
@@ -39,6 +42,9 @@ public class PersonEditViewController {
     //Sets the stage of this dialogue
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
+     // Adds an icon the the stage
+        URL imageUrl = getClass().getResource("/resources/images/database_image_freepik2.png");
+        this.dialogStage.getIcons().add(new Image(imageUrl.toExternalForm()));
     }
     
     // Sets the textfield's information using the person information

@@ -1,12 +1,14 @@
 package databaseController;
 
 import java.io.IOException;
+import java.net.URL;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.*;
@@ -43,10 +45,15 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Family Book Database");
-
+        
+        // Adds an icon the the stage
+        URL imageUrl = getClass().getResource("/resources/images/database_image_freepik2.png");
+        this.primaryStage.getIcons().add(new Image(imageUrl.toExternalForm()));
+        
         initRootLayout();
 
         showPersonOverview();
+        
     }
     
     //Initializes the root layout.
@@ -105,8 +112,7 @@ public class MainApp extends Application {
 
             // Set the person into the controller.
             // Established this controller using SceneBuilder
-            // Issue? Its supposed to be showing the controller of /view/PersonEditView.fxml which is view.PersonEditViewController
-            PersonEditViewController controller = loader.getController(); // This controller is apparently null...
+            PersonEditViewController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setPerson(person);
 

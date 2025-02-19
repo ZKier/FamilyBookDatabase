@@ -28,7 +28,7 @@
                   </TableView>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="background" stylesheets="@DarkTheme.css">
                <children>
                   <Label layoutX="14.0" layoutY="14.0" text="Person Details:" AnchorPane.leftAnchor="5.0" />
                   <GridPane layoutX="14.0" layoutY="32.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="50.0">
@@ -59,11 +59,11 @@
                         <Label fx:id="childrenLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                      </children>
                   </GridPane>
-                  <ButtonBar layoutX="204.0" layoutY="244.0" prefHeight="40.0" prefWidth="175.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="10.0">
+                  <ButtonBar layoutX="204.0" layoutY="244.0" prefHeight="40.0" prefWidth="340.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="10.0">
                     <buttons>
-                      <Button mnemonicParsing="false" text="New..." />
+                      <Button mnemonicParsing="false" onAction="#handleNewPerson" text="New..." />
                         <Button mnemonicParsing="false" onAction="#handleEditPerson" text="Edit..." />
-                        <Button mnemonicParsing="false" onAction="#handleDeletePerson" text="Delete..." />
+                        <Button mnemonicParsing="false" onAction="#handleDeletePerson" prefHeight="33.0" text="Delete..." />
                     </buttons>
                   </ButtonBar>
                </children>
