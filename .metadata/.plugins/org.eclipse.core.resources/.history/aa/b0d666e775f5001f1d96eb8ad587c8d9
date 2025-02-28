@@ -141,11 +141,6 @@ public class MainApp extends Application {
 		launch(args);
 	}
 	
-	
-	
-	
-	
-	
 	/**
 	 * Returns the person file preference, i.e. the file that was last opened.
 	 * The preference is read from the OS specific registry. If no such
@@ -183,15 +178,4 @@ public class MainApp extends Application {
 	        primaryStage.setTitle("Family Book Database");
 	    }
 	}
-	
-	// Saves Person data to a file
-	public void savePersonDataAsFile(File file) {
-		File newFile = new File("filename.txt");
-	}
-	
-	//saveToFile
-	
-	// Loads Person data from the specified file. The current person data will be replaced.
-	//public void loadPersonDataFromFile(File file) {
-	//}
 }
