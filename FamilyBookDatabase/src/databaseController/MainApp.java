@@ -1,7 +1,9 @@
 package databaseController;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.prefs.Preferences;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -15,6 +17,7 @@ import javafx.stage.*;
 import model.Person;
 import view.OverviewController;
 import view.PersonEditViewController;
+import view.RootLayoutController;
 
 public class MainApp extends Application {
 
@@ -56,7 +59,7 @@ public class MainApp extends Application {
         
     }
     
-    //Initializes the root layout.
+    // Initializes the root layout.
     public void initRootLayout() {
         try {
             // Load root layout from fxml file.
@@ -67,6 +70,11 @@ public class MainApp extends Application {
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
+            
+            // Give the controller access to the main app.
+            RootLayoutController controller = loader.getController();
+            controller.setMainApp(this);
+            
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -138,4 +146,58 @@ public class MainApp extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+	
+	
+	
+	
+	
+	
+	/**
+	 * Returns the person file preference, i.e. the file that was last opened.
+	 * The preference is read from the OS specific registry. If no such
+	 * preference can be found, null is returned.
+	 * 
+	 * @return
+	 */
+	public File getPersonFilePath() {
+	    Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+	    String filePath = prefs.get("filePath", null);
+	    if (filePath != null) {
+	        return new File(filePath);
+	    } else {
+	        return null;
+	    }
+	}
+	
+	/**
+	 * Sets the file path of the currently loaded file. The path is persisted in
+	 * the OS specific registry.
+	 * 
+	 * @param file the file or null to remove the path
+	 */
+	public void setPersonFilePath(File file) {
+	    Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+	    if (file != null) {
+	        prefs.put("filePath", file.getPath());
+
+	        // Update the stage title.
+	        primaryStage.setTitle("Family Book Database - " + file.getName());
+	    } else {
+	        prefs.remove("filePath");
+
+	        // Update the stage title.
+	        primaryStage.setTitle("Family Book Database");
+	    }
+	}
+	
+	// Saves Person data to a file
+	public void savePersonDataAsFile(File file) {
+		File newFile = new File("filename.txt");
+	}
+	
+	//saveToFile
+	
+	// Loads Person data from the specified file. The current person data will be replaced.
+	//public void loadPersonDataFromFile(File file) {
+	//}
 }

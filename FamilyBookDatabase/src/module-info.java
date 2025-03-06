@@ -3,6 +3,8 @@ module FamilyBookDatabase {
 	requires javafx.fxml;
 	requires javafx.base;
 	requires javafx.graphics;
+	requires java.prefs;
+	requires org.json;
 	
 	opens databaseController to javafx.graphics, javafx.fxml;
 	
