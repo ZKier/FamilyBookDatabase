@@ -10,4 +10,5 @@
     <fullyQualifiedTypeName name="java.net.URL"/>
     <fullyQualifiedTypeName name="java.io.File"/>
     <fullyQualifiedTypeName name="java.io.IOException"/>
+    <fullyQualifiedTypeName name="view.RootLayoutController"/>
 </qualifiedTypeNameHistroy>
