@@ -17,7 +17,6 @@ import javafx.stage.*;
 import model.Person;
 import view.OverviewController;
 import view.PersonEditViewController;
-import view.RootLayoutController;
 
 public class MainApp extends Application {
 
@@ -59,7 +58,7 @@ public class MainApp extends Application {
         
     }
     
-    // Initializes the root layout.
+    //Initializes the root layout.
     public void initRootLayout() {
         try {
             // Load root layout from fxml file.
@@ -70,11 +69,6 @@ public class MainApp extends Application {
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
-            
-            // Give the controller access to the main app.
-            RootLayoutController controller = loader.getController();
-            controller.setMainApp(this);
-            
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();

@@ -7,10 +7,13 @@ import org.json.JSONObject;
 
 
 
-// Helper class to wrap a list of persons for saving
+// * Helper class to wrap a list of persons. This is used for saving the list of persons.
+
 public class PersonListWrapper {
+
 	private List<Person> persons;
 
+	
 	public List<Person> getPersons() {
 		return persons;
 	}

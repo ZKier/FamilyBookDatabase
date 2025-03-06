@@ -8,14 +8,6 @@ import databaseController.MainApp;
 
 public class RootLayoutController {
 	
-	// Reference to the main application
-	private MainApp mainApp;
-	
-	//
-	public void setMainApp(MainApp mainApp) {
-		this.mainApp = mainApp;
-	}
-	
 	public void fileNewHandler() {
 		
 	}
@@ -28,13 +20,8 @@ public class RootLayoutController {
 		
 	}
 	
-	// Saves the information as a new file
-	@FXML
 	public void fileSaveAsHandler() {
-		// Specify the location that the file should go
-		mainApp.setPersonFilePath(mainApp.getPersonFilePath());
-		// Create a file in specified location
-		// Add the information to the file
+		
 	}
 	
 	
@@ -42,6 +29,5 @@ public class RootLayoutController {
 	@FXML
 	public void fileExitHandler() {
 		System.exit(0);
-		System.out.println("this code ran");
 	}
 }
