@@ -42,16 +42,8 @@ public class RootLayoutController {
 		
 		// Show save file dialog
 		File file = fileChooser.showSaveDialog(mainApp.getPrimaryStage());
-		
-		if (file != null) {
-			// Make sure it has the correct extension
-			if (!file.getPath().endsWith(".json")) {
-				file = new File(file.getPath() + ".json");
-			}
-			mainApp.savePersonDataToFile(file);
-		}
 		// Specify the location that the file should go
-		//mainApp.setPersonFilePath(mainApp.getPersonFilePath());
+		mainApp.setPersonFilePath(mainApp.getPersonFilePath());
 		System.out.println("this code ran");
 		// Create a file in specified location
 		// Add the information to the file

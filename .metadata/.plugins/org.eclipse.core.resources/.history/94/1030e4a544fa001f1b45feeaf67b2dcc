@@ -13,7 +13,6 @@ class PersonTest {
 		testGetParents();
 		testGetChildren();
 		testGetDateOfBirth();
-		testGetFormattedDateOfBirth();
 		
 		testSetFirstName();
 		testSetmiddleName();
@@ -79,8 +78,8 @@ class PersonTest {
 	static void testGetDateOfBirth() {
 		System.out.println("testGetDateOfBirth");
 		Person person1 = new Person("Kacey", "Monster");
-		System.out.println("Expected: 1999-02-21");
-		System.out.printf("Outcome: %s\n\n", person1.getDateOfBirth().toString().substring(8, 10));
+		System.out.println("Expected: 2/21/1999");
+		System.out.printf("Outcome: %s\n\n", person1.getDateOfBirth());
 	}
 	
 	static void testGetFormattedDateOfBirth() {

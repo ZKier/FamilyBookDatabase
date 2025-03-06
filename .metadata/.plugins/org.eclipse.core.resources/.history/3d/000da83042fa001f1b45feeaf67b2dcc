@@ -45,15 +45,6 @@ public class Person {
 		this.dateOfBirth = new SimpleObjectProperty<LocalDate>(LocalDate.of(year, month, day));
 	}
 	
-	public Person(String firstName, String middleName, String lastName, int parents, int children, int month, int day, int year) {
-		this.firstName = new SimpleStringProperty(firstName);
-		this.middleName = new SimpleStringProperty(middleName);
-		this.lastName = new SimpleStringProperty(lastName);
-		this.parents = new SimpleIntegerProperty(parents);
-		this.children = new SimpleIntegerProperty(children);
-		this.dateOfBirth = new SimpleObjectProperty<LocalDate>(LocalDate.of(year, month, day));
-	}
-	
 	// Get Methods
 	public String getFirstName() {
 		return firstName.get();

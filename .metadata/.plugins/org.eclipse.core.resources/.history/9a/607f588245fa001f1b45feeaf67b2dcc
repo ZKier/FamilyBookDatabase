@@ -80,7 +80,7 @@ class PersonTest {
 		System.out.println("testGetDateOfBirth");
 		Person person1 = new Person("Kacey", "Monster");
 		System.out.println("Expected: 1999-02-21");
-		System.out.printf("Outcome: %s\n\n", person1.getDateOfBirth().toString().substring(8, 10));
+		System.out.printf("Outcome: %s\n\n", person1.getDateOfBirth().toString().substring(0, 4));
 	}
 	
 	static void testGetFormattedDateOfBirth() {

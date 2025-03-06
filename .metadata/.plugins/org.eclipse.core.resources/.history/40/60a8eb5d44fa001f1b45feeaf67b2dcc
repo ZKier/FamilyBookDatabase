@@ -49,6 +49,8 @@ public class Person {
 		this.firstName = new SimpleStringProperty(firstName);
 		this.middleName = new SimpleStringProperty(middleName);
 		this.lastName = new SimpleStringProperty(lastName);
+		
+		// Some initial dummy data, just for convenient testing.
 		this.parents = new SimpleIntegerProperty(parents);
 		this.children = new SimpleIntegerProperty(children);
 		this.dateOfBirth = new SimpleObjectProperty<LocalDate>(LocalDate.of(year, month, day));

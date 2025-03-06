@@ -215,9 +215,9 @@ public class MainApp extends Application {
 			System.out.println(testCount);
 			System.out.println(jsonArray.toString());
 			
-			// write and save JSON data to file (the data isnt showing up...)
+			// write and save JSON data to file
 			FileWriter writer = new FileWriter(file);
-			writer.write(jsonArray.toString());
+			writer.write(jsonArray.toString(2));
 			
 			// Save the file path to the registry
 			setPersonFilePath(file);
