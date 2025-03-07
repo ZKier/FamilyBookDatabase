@@ -36,17 +36,20 @@ public class RootLayoutController {
 	public void fileSaveAsHandler() {
 		// Opens a file chooser
 		FileChooser fileChooser = new FileChooser();
-		// Set an extension filter(""Description", "*.ext1"
+		// Set an extension filter("Description", "*.ext1")
 		FileChooser.ExtensionFilter extensionFilt = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
 		fileChooser.getExtensionFilters().add(extensionFilt);
 		
 		// Show save file dialog
 		File file = fileChooser.showSaveDialog(mainApp.getPrimaryStage());
-		// Specify the location that the file should go
-		mainApp.setPersonFilePath(mainApp.getPersonFilePath());
-		System.out.println("this code ran");
-		// Create a file in specified location
-		// Add the information to the file
+		
+		if (file != null) {
+			// Make sure it has the correct extension
+			if (!file.getPath().endsWith(".json")) {
+				file = new File(file.getPath() + ".json");
+			}
+			mainApp.savePersonDataToFile(file);
+		}
 	}
 	
 	

@@ -1,15 +1,25 @@
 package databaseController;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.prefs.Preferences;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import javafx.application.Application;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -191,11 +201,47 @@ public class MainApp extends Application {
 	}
 	
 	// Saves Person data to a file
-	public void savePersonDataAsFile(File file) {
-		File newFile = new File("filename.txt");
+	public void savePersonDataToFile(File file) {
+		try {
+			// Pull the main list
+			java.util.Iterator<Person> iterator = personData.iterator();
+			JSONArray jsonArray = new JSONArray();
+			while (iterator.hasNext()) {
+				jsonArray.put(personToJSON(iterator.next()));
+			}
+			
+			// write and save JSON data to file
+			FileWriter writer = new FileWriter(file);
+			writer.write(jsonArray.toString(2));
+			writer.close();
+			
+			// Save the file path to the registry
+			setPersonFilePath(file);
+			
+		} catch (Exception e) {
+	        Alert alert = new Alert(AlertType.ERROR);
+	        alert.setTitle("Error");
+	        alert.setHeaderText("Could not save data");
+	        alert.setContentText("Could not save data to file:\n" + file.getPath());
+
+	        alert.showAndWait();
+		}
 	}
 	
-	//saveToFile
+	// Helper function
+	public JSONObject personToJSON(Person person) {
+		//Person(String firstName, String middleName, String lastName, int parents, int children, int month, int day, int year)
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("firstName", person.getFirstName());
+		jsonObject.put("middleName", person.getMiddleName());
+		jsonObject.put("lastName", person.getLastName());
+		jsonObject.put("parents", person.getParents());
+		jsonObject.put("children", person.getChildren());
+		jsonObject.put("month", person.getDateOfBirth().toString().substring(5, 7));
+		jsonObject.put("day", person.getDateOfBirth().toString().substring(8, 10));
+		jsonObject.put("year", person.getDateOfBirth().toString().substring(0, 4));
+		return  jsonObject;
+	}
 	
 	// Loads Person data from the specified file. The current person data will be replaced.
 	//public void loadPersonDataFromFile(File file) {
