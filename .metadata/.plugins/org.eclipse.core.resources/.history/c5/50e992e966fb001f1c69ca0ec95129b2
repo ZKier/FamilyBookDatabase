@@ -205,19 +205,22 @@ public class MainApp extends Application {
 		try {
 			// Pull the main list
 			java.util.Iterator<Person> iterator = personData.iterator();
+			int testCount = 0;
 			JSONArray jsonArray = new JSONArray();
 			while (iterator.hasNext()) {
 				jsonArray.put(personToJSON(iterator.next()));
+				testCount += 1;
 			}
 			
-			// write and save JSON data to file
+			System.out.println(testCount);
+			System.out.println(jsonArray.toString());
+			
+			// write and save JSON data to file (the data isnt showing up...)
 			FileWriter writer = new FileWriter(file);
-			writer.write(jsonArray.toString(2));
-			writer.close();
+			writer.write(jsonArray.toString());
 			
 			// Save the file path to the registry
 			setPersonFilePath(file);
-			
 		} catch (Exception e) {
 	        Alert alert = new Alert(AlertType.ERROR);
 	        alert.setTitle("Error");
@@ -226,9 +229,9 @@ public class MainApp extends Application {
 
 	        alert.showAndWait();
 		}
+		File newFile = new File("filename.txt");
 	}
 	
-	// Helper function
 	public JSONObject personToJSON(Person person) {
 		//Person(String firstName, String middleName, String lastName, int parents, int children, int month, int day, int year)
 		JSONObject jsonObject = new JSONObject();
@@ -241,7 +244,27 @@ public class MainApp extends Application {
 		jsonObject.put("day", person.getDateOfBirth().toString().substring(8, 10));
 		jsonObject.put("year", person.getDateOfBirth().toString().substring(0, 4));
 		return  jsonObject;
+//			this.middleName = new SimpleStringProperty(middleName);
+//			this.lastName = new SimpleStringProperty(lastName);
+//			this.parents = new SimpleIntegerProperty(parents);
+//			this.children = new SimpleIntegerProperty(children);
+//			this.dateOfBirth = new SimpleObjectProperty<LocalDate>(LocalDate.of(year, month, day));
+
 	}
+/*	
+	public JSONArray personToJSON(Person person) {
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("firstName", person.getFirstName());
+		return 
+//			this.middleName = new SimpleStringProperty(middleName);
+//			this.lastName = new SimpleStringProperty(lastName);
+//			this.parents = new SimpleIntegerProperty(parents);
+//			this.children = new SimpleIntegerProperty(children);
+//			this.dateOfBirth = new SimpleObjectProperty<LocalDate>(LocalDate.of(year, month, day));
+
+	}
+*/
+	//saveToFile
 	
 	// Loads Person data from the specified file. The current person data will be replaced.
 	//public void loadPersonDataFromFile(File file) {
