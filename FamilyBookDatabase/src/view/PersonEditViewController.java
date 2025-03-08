@@ -62,83 +62,87 @@ public class PersonEditViewController {
     
     /**
      * Returns true if the user clicked OK, false otherwise.
-     * 
      * @return
      */
     public boolean isOkClicked() {
         return okClicked;
     }
     
-    //Sets the info of the edited person to the edited information.
+    /**
+     * Sets the info of the edited person to the edited information.
+     */
     @FXML
     private void handleOk() {
-        if (isInputValid()) {
-            person.setFirstName(firstNameTextField.getText());
-            person.setMiddleName(middleNameTextField.getText());
-            person.setLastName(lastNameTextField.getText());
-            //person.setPostalCode(Integer.parseInt(postalCodeField.getText()));
-            //person.setCity(cityField.getText());
-            //person.setBirthday(DateUtil.parse(birthdayField.getText()));
+    	if (isInputValid()) {
+    		person.setFirstName(firstNameTextField.getText());
+    		person.setMiddleName(middleNameTextField.getText());
+    		person.setLastName(lastNameTextField.getText());
+    		person.setParents(Integer.parseInt(parentsTextField.getText()));
+    		person.setChildren(Integer.parseInt(childrenTextField.getText()));
+            person.setDateOfBirth(DateUtil.parse(dateOfBirthTextField.getText()));
 
             okClicked = true;
             dialogStage.close();
         }
     }
     
-    // Called when the user clicks cancel.
+    /**
+     * Called when the user clicks cancel.
+     */
     @FXML
     private void handleCancel() {
         dialogStage.close();
     }
 
-    // Validates the user input in the text fields.
-    // @return true if the input is valid
+    /**
+     * Validates the user input in the text fields.
+     * @return true: If the input is valid.
+     */
     private boolean isInputValid() {
-        String errorMessage = "";
-
-        if (firstNameTextField.getText() == null || firstNameTextField.getText().length() == 0) {
-            errorMessage += "No valid first name!\n"; 
-        }
-        if (middleNameTextField.getText() == null || middleNameTextField.getText().length() == 0) {
-            errorMessage += "No valid middle name!\n"; 
-        }
-        if (lastNameTextField.getText() == null || lastNameTextField.getText().length() == 0) {
-            errorMessage += "No valid last name!\n"; 
-        }
-
-        // Parents handler
-        /*
-        if (parentsTextField.getText() == null || parentsTextField.getText().length() == 0) {
-            errorMessage += "No valid amount of parents!\n"; 
-        } else {
-            // try to parse the postal code into an int.
-            try {
-                Integer.parseInt(parentsTextField.getText());
-            } catch (NumberFormatException e) {
-                errorMessage += "Value for 'Amount of Parents' invalid! (must be an integer)\n"; 
-            }
-        }
-*/
-        /*
-        if (childrenTextField.getText() == null || childrenTextField.getText().length() == 0) {
+    	String errorMessage = "";
+    	// First name handler
+    	if (firstNameTextField.getText() == null || firstNameTextField.getText().length() == 0) {
+    		errorMessage += "No valid first name!\n"; 
+    	}
+    	// Middle name handler
+    	if (middleNameTextField.getText() == null || middleNameTextField.getText().length() == 0) {
+    		errorMessage += "No valid middle name!\n"; 
+    	}
+    	// Last name handler
+    	if (lastNameTextField.getText() == null || lastNameTextField.getText().length() == 0) {
+    		errorMessage += "No valid last name!\n"; 
+    		}
+    	// Parents handler
+    	if (parentsTextField.getText() == null || parentsTextField.getText().length() == 0) {
+    		errorMessage += "No valid amount of parents!\n"; 
+    	} else {
+    		// Try to parse the text field into an integer.
+    		try {
+    			Integer.parseInt(parentsTextField.getText());
+    		} catch (NumberFormatException e) {
+    			errorMessage += "Value for 'Amount of Parents' invalid! (must be an integer)\n"; 
+    		}
+    	}
+    	// Children handler
+    	if (childrenTextField.getText() == null || childrenTextField.getText().length() == 0) {
             errorMessage += "Value for 'Amount of Children' missing!\n"; 
         } else {
+        	// Try to parse the text field into an integer
         	try {
         		Integer.parseInt(childrenTextField.getText());
         	} catch (NumberFormatException e) {
         		errorMessage += "Value for 'Amount of Children' invalid! (must be an integer)\n";
         	}
         }
-        */
-/*
-        if (birthdayField.getText() == null || birthdayField.getText().length() == 0) {
+    	// Birthday handler
+        if (dateOfBirthTextField.getText() == null || dateOfBirthTextField.getText().length() == 0) {
             errorMessage += "No valid birthday!\n";
         } else {
-            if (!DateUtil.validDate(birthdayField.getText())) {
-                errorMessage += "No valid birthday. Use the format dd.mm.yyyy!\n";
+            if (!DateUtil.validDate(dateOfBirthTextField.getText())) {
+                errorMessage += "No valid birthday. Use the format dd/mm/yyyy!\n";
             }
         }
-  */      
+ 
         // Useful Information.
         /*
         if (parentsTextField.getText() == null || parentsTextField.getText().length() == 0) {

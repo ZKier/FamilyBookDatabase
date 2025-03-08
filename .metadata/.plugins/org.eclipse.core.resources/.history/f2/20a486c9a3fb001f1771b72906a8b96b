@@ -1,0 +1,281 @@
+package databaseController;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.URL;
+import java.time.LocalDate;
+import java.util.prefs.Preferences;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import javafx.application.Application;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.*;
+import model.Person;
+import view.OverviewController;
+import view.PersonEditViewController;
+import view.RootLayoutController;
+
+public class MainApp extends Application {
+
+    private Stage primaryStage;
+    private BorderPane rootLayout;
+    
+    private ObservableList<Person> personData = FXCollections.observableArrayList();
+    
+    public MainApp() {
+		/*
+    	// Sample data
+		personData.add(new Person("Kacey", "Monster"));
+		personData.add(new Person("Roddrick", "Keller"));
+		personData.add(new Person("Mistriss", "Rains"));
+		personData.add(new Person("Famrik", "Kins"));
+		personData.add(new Person("Podrey", "Spays"));
+		personData.add(new Person("Assata", "Ritz"));
+		personData.add(new Person("Promethius", "Kiss"));
+		personData.add(new Person("Steeve", "Powers"));
+		personData.add(new Person("Mitchell", "Lumphrey"));
+		*/
+	}
+    
+    // Lists Persons
+    public ObservableList<Person> getPersonData() {
+		return personData;
+	}
+
+    @Override
+    public void start(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+        this.primaryStage.setTitle("Family Book Database");
+        
+        // Adds an icon the the stage
+        URL imageUrl = getClass().getResource("/resources/images/database_image_freepik2.png");
+        this.primaryStage.getIcons().add(new Image(imageUrl.toExternalForm()));
+        
+        initRootLayout();
+
+        showPersonOverview();
+        
+    }
+    
+    // Initializes the root layout.
+    public void initRootLayout() {
+        try {
+            // Load root layout from fxml file.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("/view/RootLayout.fxml"));
+            rootLayout = (BorderPane) loader.load();
+            
+            // Show the scene containing the root layout.
+            Scene scene = new Scene(rootLayout);
+            primaryStage.setScene(scene);
+            
+            // Give the controller access to the main app.
+            RootLayoutController controller = loader.getController();
+            controller.setMainApp(this);
+            
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Shows the person overview inside the root layout.
+    public void showPersonOverview() {
+        try {
+            // Load person overview.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("/view/Overview.fxml"));
+            AnchorPane personOverview = (AnchorPane) loader.load();
+            
+            // Set person overview into the center of root layout.
+            rootLayout.setCenter(personOverview);
+
+            // Give the controller access to the MainApp.
+            OverviewController controller = loader.getController();
+            //System.out.println(controller); // returns view.OverviewController@70cf0b45
+            controller.setMainApp(this);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    // Allows the initialization of the edit view
+    public boolean showPersonEditOverview(Person person) {
+        try {
+            // Load the FXML file and create a new stage for the pop-up dialog.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(MainApp.class.getResource("/view/PersonEditView.fxml"));
+            BorderPane page = (BorderPane) loader.load();
+
+            // Create the dialog Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Edit Person");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the person into the controller.
+            // Established this controller using SceneBuilder
+            PersonEditViewController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setPerson(person);
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+
+            return controller.isOkClicked();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+	/**
+	 * Returns the main stage.
+	 * @return
+	 */
+	public Stage getPrimaryStage() {
+		return primaryStage;
+	}
+
+	public static void main(String[] args) {
+		launch(args);
+	}
+	
+	
+	
+	
+	
+	
+	/**
+	 * Returns the person file preference, i.e. the file that was last opened.
+	 * The preference is read from the OS specific registry. If no such
+	 * preference can be found, null is returned.
+	 * 
+	 * @return
+	 */
+	public File getPersonFilePath() {
+	    Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+	    String filePath = prefs.get("filePath", null);
+	    if (filePath != null) {
+	        return new File(filePath);
+	    } else {
+	        return null;
+	    }
+	}
+	
+	/**
+	 * Sets the file path of the currently loaded file. The path is persisted in
+	 * the OS specific registry.
+	 * 
+	 * @param file the file or null to remove the path
+	 */
+	public void setPersonFilePath(File file) {
+	    Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
+	    if (file != null) {
+	        prefs.put("filePath", file.getPath());
+
+	        // Update the stage title.
+	        primaryStage.setTitle("Family Book Database - " + file.getName());
+	    } else {
+	        prefs.remove("filePath");
+
+	        // Update the stage title.
+	        primaryStage.setTitle("Family Book Database");
+	    }
+	}
+	
+	// Saves Person data to a file
+	public void savePersonDataToFile(File file) {
+		try {
+			// Pull the main list
+			java.util.Iterator<Person> iterator = personData.iterator();
+			JSONArray jsonArray = new JSONArray();
+			while (iterator.hasNext()) {
+				jsonArray.put(personToJSON(iterator.next()));
+			}
+			
+			// write and save JSON data to file
+			FileWriter writer = new FileWriter(file);
+			writer.write(jsonArray.toString(2));
+			writer.close();
+			
+			// Save the file path to the registry
+			setPersonFilePath(file);
+			
+		} catch (Exception e) {
+	        Alert alert = new Alert(AlertType.ERROR);
+	        alert.setTitle("Error");
+	        alert.setHeaderText("Could not save data");
+	        alert.setContentText("Could not save data to file:\n" + file.getPath());
+
+	        alert.showAndWait();
+		}
+	}
+	
+	// Helper function
+	public JSONObject personToJSON(Person person) {
+		//Person(String firstName, String middleName, String lastName, int parents, int children, int month, int day, int year)
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("firstName", person.getFirstName());
+		jsonObject.put("middleName", person.getMiddleName());
+		jsonObject.put("lastName", person.getLastName());
+		jsonObject.put("parents", person.getParents());
+		jsonObject.put("children", person.getChildren());
+		jsonObject.put("month", person.getDateOfBirth().toString().substring(5, 7));
+		jsonObject.put("day", person.getDateOfBirth().toString().substring(8, 10));
+		jsonObject.put("year", person.getDateOfBirth().toString().substring(0, 4));
+		return  jsonObject;
+	}
+	
+	// Loads Person data from the specified file. The current person data will be replaced.
+	public void loadPersonDataFromFile(File file) {
+		try {
+			FileReader fileReader = new FileReader(file);
+			
+			// Turn the information into a String
+			String information;
+			int data = fileReader.read();
+			while (data != -1) {
+				information += (char) data;
+			}
+			
+			System.out.println(information);
+			//JSONObject myFile = ;
+/*
+			  for (Object o : a) {
+			    JSONObject person = (JSONObject) o;
+
+			    String name = (String) person.get("name");
+			    System.out.println(name);
+
+			    String city = (String) person.get("city");
+			    System.out.println(city);
+
+			    String job = (String) person.get("job");
+			    System.out.println(job);
+*/
+			  }
+		} catch (Exception e) {
+			
+		}
+	}
+}

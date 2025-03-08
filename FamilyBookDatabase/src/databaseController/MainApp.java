@@ -1,6 +1,7 @@
 package databaseController;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
@@ -37,7 +38,8 @@ public class MainApp extends Application {
     private ObservableList<Person> personData = FXCollections.observableArrayList();
     
     public MainApp() {
-		// Sample data
+		/*
+    	// Sample data
 		personData.add(new Person("Kacey", "Monster"));
 		personData.add(new Person("Roddrick", "Keller"));
 		personData.add(new Person("Mistriss", "Rains"));
@@ -47,6 +49,7 @@ public class MainApp extends Application {
 		personData.add(new Person("Promethius", "Kiss"));
 		personData.add(new Person("Steeve", "Powers"));
 		personData.add(new Person("Mitchell", "Lumphrey"));
+		*/
 	}
     
     // Lists Persons
@@ -200,7 +203,10 @@ public class MainApp extends Application {
 	    }
 	}
 	
-	// Saves Person data to a file
+	/**
+	 *  Saves Person data to a file
+	 *  @param file the file 
+	 */
 	public void savePersonDataToFile(File file) {
 		try {
 			// Pull the main list
@@ -209,6 +215,10 @@ public class MainApp extends Application {
 			while (iterator.hasNext()) {
 				jsonArray.put(personToJSON(iterator.next()));
 			}
+			
+			// Wrap JSONarray so that the person data can be pulled directly
+//			JSONObject jsonObject = new JSONObject();
+//			jsonObject.put("Persons", jsonArray);
 			
 			// write and save JSON data to file
 			FileWriter writer = new FileWriter(file);
@@ -243,7 +253,61 @@ public class MainApp extends Application {
 		return  jsonObject;
 	}
 	
-	// Loads Person data from the specified file. The current person data will be replaced.
-	//public void loadPersonDataFromFile(File file) {
-	//}
+	/**
+	 *  Loads Person data from the specified file. The current person data will be replaced.
+	 */
+	public void loadPersonDataFromFile(File file) {
+		personData.clear();
+		try {
+			FileReader fileReader = new FileReader(file);
+			
+			// Turn the information into a String
+			String information = "";
+			int data;
+			while ((data = fileReader.read()) != -1) {	
+				information += (char) data;
+			}
+			fileReader.close();
+			//System.out.println(information);
+			
+			// Convert String to JSON array
+			JSONArray myFile = new JSONArray(information);
+			
+			// Convert each JSON array object into an individual object to create a person object
+			for (Object o : myFile) {
+				JSONObject person = (JSONObject) o;
+
+				String firstName = (String) person.get("firstName");
+				//System.out.println(firstName);
+				String middleName = (String) person.get("middleName");
+				//System.out.println(middleName);
+				String lastName = (String) person.get("lastName");
+				//System.out.println(lastName);
+				int parents = (int) person.get("parents");
+				//System.out.println(parents);
+				int children = (int) person.get("children");
+				//System.out.println(children);
+				int month = Integer.parseInt( (String) person.get("month"));
+				//System.out.println(month);
+				int day = Integer.parseInt( (String) person.get("day"));
+				//System.out.println(day);
+				int year = Integer.parseInt((String) person.get("year"));
+				//System.out.println(year);
+				
+				// Add the loaded data to the screen.
+				personData.add(new Person(firstName, middleName, lastName, parents, children, month, day, year));
+			}
+			
+			// Save the file path to the registry.
+	        setPersonFilePath(file);
+
+		} catch (Exception e) {
+	        Alert alert = new Alert(AlertType.ERROR);
+	        alert.setTitle("Error");
+	        alert.setHeaderText("Could not load data");
+	        alert.setContentText("Could not load data from file:\n" + file.getPath());
+
+	        alert.showAndWait();
+		}
+	}
 }
