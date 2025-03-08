@@ -78,7 +78,7 @@ public class PersonEditViewController {
     		person.setMiddleName(middleNameTextField.getText());
     		person.setLastName(lastNameTextField.getText());
     		person.setParents(Integer.parseInt(parentsTextField.getText()));
-    		person.setChildren(Integer.parseInt(childrenTextField.getText()));
+    		person.setChildren(Integer.parseInt(parentsTextField.getText()));
             person.setDateOfBirth(DateUtil.parse(dateOfBirthTextField.getText()));
 
             okClicked = true;

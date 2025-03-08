@@ -11,9 +11,9 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="New" />
+              <MenuItem mnemonicParsing="false" onAction="#fileNewHandler" text="New" />
                   <MenuItem mnemonicParsing="false" onAction="#fileOpenHandler" text="Open..." />
-                  <MenuItem mnemonicParsing="false" text="Save" />
+                  <MenuItem mnemonicParsing="false" onAction="#fileSaveHandler" text="Save" />
                   <MenuItem mnemonicParsing="false" onAction="#fileSaveAsHandler" text="Save As..." />
                   <MenuItem mnemonicParsing="false" onAction="#fileExitHandler" text="Exit" />
             </items>

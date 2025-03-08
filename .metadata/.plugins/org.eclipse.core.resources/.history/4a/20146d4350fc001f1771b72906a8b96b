@@ -78,8 +78,9 @@ public class PersonEditViewController {
     		person.setMiddleName(middleNameTextField.getText());
     		person.setLastName(lastNameTextField.getText());
     		person.setParents(Integer.parseInt(parentsTextField.getText()));
-    		person.setChildren(Integer.parseInt(childrenTextField.getText()));
-            person.setDateOfBirth(DateUtil.parse(dateOfBirthTextField.getText()));
+    		person.setChildren(Integer.parseInt(parentsTextField.getText()));
+            //person.setCity(cityField.getText());
+            //person.setBirthday(DateUtil.parse(birthdayField.getText()));
 
             okClicked = true;
             dialogStage.close();
@@ -134,15 +135,15 @@ public class PersonEditViewController {
         		errorMessage += "Value for 'Amount of Children' invalid! (must be an integer)\n";
         	}
         }
-    	// Birthday handler
-        if (dateOfBirthTextField.getText() == null || dateOfBirthTextField.getText().length() == 0) {
+/*
+        if (birthdayField.getText() == null || birthdayField.getText().length() == 0) {
             errorMessage += "No valid birthday!\n";
         } else {
-            if (!DateUtil.validDate(dateOfBirthTextField.getText())) {
-                errorMessage += "No valid birthday. Use the format dd/mm/yyyy!\n";
+            if (!DateUtil.validDate(birthdayField.getText())) {
+                errorMessage += "No valid birthday. Use the format dd.mm.yyyy!\n";
             }
         }
- 
+  */      
         // Useful Information.
         /*
         if (parentsTextField.getText() == null || parentsTextField.getText().length() == 0) {

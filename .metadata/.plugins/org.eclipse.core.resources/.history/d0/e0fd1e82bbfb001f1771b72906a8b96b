@@ -203,10 +203,7 @@ public class MainApp extends Application {
 	    }
 	}
 	
-	/**
-	 *  Saves Person data to a file
-	 *  @param file the file 
-	 */
+	// Saves Person data to a file
 	public void savePersonDataToFile(File file) {
 		try {
 			// Pull the main list
@@ -253,11 +250,8 @@ public class MainApp extends Application {
 		return  jsonObject;
 	}
 	
-	/**
-	 *  Loads Person data from the specified file. The current person data will be replaced.
-	 */
+	// Loads Person data from the specified file. The current person data will be replaced.
 	public void loadPersonDataFromFile(File file) {
-		personData.clear();
 		try {
 			FileReader fileReader = new FileReader(file);
 			
@@ -268,7 +262,7 @@ public class MainApp extends Application {
 				information += (char) data;
 			}
 			fileReader.close();
-			//System.out.println(information);
+			System.out.println(information);
 			
 			// Convert String to JSON array
 			JSONArray myFile = new JSONArray(information);
@@ -297,9 +291,6 @@ public class MainApp extends Application {
 				// Add the loaded data to the screen.
 				personData.add(new Person(firstName, middleName, lastName, parents, children, month, day, year));
 			}
-			
-			// Save the file path to the registry.
-	        setPersonFilePath(file);
 
 		} catch (Exception e) {
 	        Alert alert = new Alert(AlertType.ERROR);

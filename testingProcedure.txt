@@ -1,0 +1,14 @@
+- Test Saving
+- Test Loading
+- Test to see if all things saved are loaded (this can probably be broken down)
+
+- Test Create Person
+Click "Edit..".
+Enter a first name: Ex. "James"
+Enter a middle name: Ex. "Lynn"
+Enter a last name: Ex. "Crocker"
+Enter a date of birth: Ex. "03/29/2005"
+Enter the amount of parents: 3
+Enter the amount of children: 2
+
+See if all tests show correctly.

@@ -257,7 +257,6 @@ public class MainApp extends Application {
 	 *  Loads Person data from the specified file. The current person data will be replaced.
 	 */
 	public void loadPersonDataFromFile(File file) {
-		personData.clear();
 		try {
 			FileReader fileReader = new FileReader(file);
 			
