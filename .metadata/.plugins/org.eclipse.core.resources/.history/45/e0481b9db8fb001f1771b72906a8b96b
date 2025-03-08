@@ -272,24 +272,24 @@ public class MainApp extends Application {
 				JSONObject person = (JSONObject) o;
 
 				String firstName = (String) person.get("firstName");
-				//System.out.println(firstName);
+				System.out.println(firstName);
 				String middleName = (String) person.get("middleName");
-				//System.out.println(middleName);
+				System.out.println(middleName);
 				String lastName = (String) person.get("lastName");
-				//System.out.println(lastName);
+				System.out.println(lastName);
 				int parents = (int) person.get("parents");
-				//System.out.println(parents);
+				System.out.println(parents);
 				int children = (int) person.get("children");
-				//System.out.println(children);
-				int month = Integer.parseInt( (String) person.get("month"));
-				//System.out.println(month);
-				int day = Integer.parseInt( (String) person.get("day"));
-				//System.out.println(day);
-				int year = Integer.parseInt((String) person.get("year"));
-				//System.out.println(year);
+				System.out.println(children);
 				
-				// Add the loaded data to the screen.
-				personData.add(new Person(firstName, middleName, lastName, parents, children, month, day, year));
+				String month = (String) person.get("month");
+				System.out.println(month);
+				String day = (String) person.get("day");
+				System.out.println(day);
+				String year = (String) person.get("year");
+				System.out.println(year);
+				System.out.println();
+				//personData.add(new Person(firstName, middleName, lastName, parents, children, month, day, year));
 			}
 
 		} catch (Exception e) {

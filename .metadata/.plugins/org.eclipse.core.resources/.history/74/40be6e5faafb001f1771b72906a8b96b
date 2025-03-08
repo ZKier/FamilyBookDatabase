@@ -213,10 +213,6 @@ public class MainApp extends Application {
 				jsonArray.put(personToJSON(iterator.next()));
 			}
 			
-			// Wrap JSONarray so that the person data can be pulled directly
-//			JSONObject jsonObject = new JSONObject();
-//			jsonObject.put("Persons", jsonArray);
-			
 			// write and save JSON data to file
 			FileWriter writer = new FileWriter(file);
 			writer.write(jsonArray.toString(2));
@@ -258,40 +254,27 @@ public class MainApp extends Application {
 			// Turn the information into a String
 			String information = "";
 			int data;
-			while ((data = fileReader.read()) != -1) {	
+			while ((data = fileReader.read()) != -1) {
 				information += (char) data;
 			}
 			fileReader.close();
 			System.out.println(information);
-			
-			// Convert String to JSON object
-			JSONArray myFile = new JSONArray(information);
-			
+			//JSONObject myFile = ;
+/*
+			  for (Object o : a) {
+			    JSONObject person = (JSONObject) o;
 
-			for (Object o : myFile) {
-				JSONObject person = (JSONObject) o;
+			    String name = (String) person.get("name");
+			    System.out.println(name);
 
-				String firstName = (String) person.get("firstName");
-				//System.out.println(firstName);
-				String middleName = (String) person.get("middleName");
-				//System.out.println(middleName);
-				String lastName = (String) person.get("lastName");
-				//System.out.println(lastName);
-				int parents = (int) person.get("parents");
-				//System.out.println(parents);
-				int children = (int) person.get("children");
-				//System.out.println(children);
-				int month = Integer.parseInt( (String) person.get("month"));
-				//System.out.println(month);
-				int day = Integer.parseInt( (String) person.get("day"));
-				//System.out.println(day);
-				int year = Integer.parseInt((String) person.get("year"));
-				//System.out.println(year);
-				
-				// Add the loaded data to the screen.
-				personData.add(new Person(firstName, middleName, lastName, parents, children, month, day, year));
-			}
+			    String city = (String) person.get("city");
+			    System.out.println(city);
 
+			    String job = (String) person.get("job");
+			    System.out.println(job);
+
+			  }
+*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

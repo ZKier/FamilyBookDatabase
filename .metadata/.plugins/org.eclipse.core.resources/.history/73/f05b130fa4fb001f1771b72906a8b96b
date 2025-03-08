@@ -31,7 +31,7 @@ public class RootLayoutController {
 		fileChooser.getExtensionFilters().add(extensionFilt);
 		
 		// Show open file dialog
-		File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
+		File file = fileChooser.showSaveDialog(mainApp.getPrimaryStage());
 		
 		if (file != null) {
 			mainApp.loadPersonDataFromFile(file);

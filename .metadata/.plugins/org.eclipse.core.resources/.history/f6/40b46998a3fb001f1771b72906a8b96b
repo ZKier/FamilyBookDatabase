@@ -24,18 +24,7 @@ public class RootLayoutController {
 	}
 	
 	public void fileOpenHandler() {
-		// Opens a file chooser
-		FileChooser fileChooser = new FileChooser();
-		// Set an extension filter("Description", "*.ext1")
-		FileChooser.ExtensionFilter extensionFilt = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
-		fileChooser.getExtensionFilters().add(extensionFilt);
 		
-		// Show open file dialog
-		File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
-		
-		if (file != null) {
-			mainApp.loadPersonDataFromFile(file);
-		}
 	}
 	
 	public void fileSaveHandler() {
