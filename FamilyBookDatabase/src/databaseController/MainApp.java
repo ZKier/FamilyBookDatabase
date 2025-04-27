@@ -5,16 +5,13 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.prefs.Preferences;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import javafx.application.Application;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -26,6 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.*;
 import model.Person;
+import view.BirthdayStatisticsController;
 import view.OverviewController;
 import view.PersonEditViewController;
 import view.RootLayoutController;
@@ -121,7 +119,7 @@ public class MainApp extends Application {
             // Load the FXML file and create a new stage for the pop-up dialog.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(MainApp.class.getResource("/view/PersonEditView.fxml"));
-            BorderPane page = (BorderPane) loader.load();
+            AnchorPane page = (AnchorPane) loader.load();
 
             // Create the dialog Stage.
             Stage dialogStage = new Stage();
@@ -250,6 +248,7 @@ public class MainApp extends Application {
 		jsonObject.put("month", person.getDateOfBirth().toString().substring(5, 7));
 		jsonObject.put("day", person.getDateOfBirth().toString().substring(8, 10));
 		jsonObject.put("year", person.getDateOfBirth().toString().substring(0, 4));
+		jsonObject.put("biography", person.getBiography());
 		return  jsonObject;
 	}
 	
@@ -293,9 +292,16 @@ public class MainApp extends Application {
 				//System.out.println(day);
 				int year = Integer.parseInt((String) person.get("year"));
 				//System.out.println(year);
-				
-				// Add the loaded data to the screen.
-				personData.add(new Person(firstName, middleName, lastName, parents, children, month, day, year));
+				try {
+					String biography = (String) person.get("biography");
+					// Add the loaded data to the screen.
+					personData.add(new Person(firstName, middleName, lastName, parents, children, month, day, year, biography));
+				} catch (JSONException e) {
+					//e.printStackTrace();
+					System.out.println("biography missing.");
+					// Add the loaded data to the screen.
+					personData.add(new Person(firstName, middleName, lastName, parents, children, month, day, year));
+				}
 			}
 			
 			// Save the file path to the registry.
@@ -308,6 +314,33 @@ public class MainApp extends Application {
 	        alert.setContentText("Could not load data from file:\n" + file.getPath());
 
 	        alert.showAndWait();
+		}
+	}
+	
+	/**
+	 * Opens a dialog to show birthday statistics.
+	 */
+	public void showBirthdayStatistics() {
+		try {
+			// Load the FXML file and create a new stage for the pop up.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("/view/BirthdayStatistics.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Birthday Statistics");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(primaryStage);
+			Scene scene = new Scene(page);
+			dialogStage.setScene(scene);
+			
+			// Set the persons into the controller.
+			BirthdayStatisticsController controller = loader.getController();
+			controller.setPersonData(personData);
+			
+			dialogStage.show();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

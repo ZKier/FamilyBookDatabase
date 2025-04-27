@@ -18,6 +18,11 @@
                   <MenuItem mnemonicParsing="false" onAction="#fileExitHandler" text="Exit" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Statistics">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#statisticsBirthdayStatisticshandler" text="Show Statistics" />
+               </items>
+            </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
               <MenuItem mnemonicParsing="false" text="Delete" />

@@ -93,6 +93,19 @@
     -fx-font-family: "Segoe UI Semibold";
 }
 
+.text-area {
+    -fx-font-size: 12pt;
+    -fx-font-family: "Segoe UI Semibold";
+}
+
+.scroll-pane {
+    -fx-background-color: #1d1d1d;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: #1d1d1d;
+}
+
 /* 
  * Metro style Push Button
  * Author: Pedro Duque Vieira

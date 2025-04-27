@@ -1,6 +1,6 @@
 package model;
 
-import java.time.LocalDate;
+//import java.time.LocalDate;
 
 class PersonTest {
 	
@@ -13,7 +13,8 @@ class PersonTest {
 		testGetParents();
 		testGetChildren();
 		testGetDateOfBirth();
-		testGetFormattedDateOfBirth();
+		//testGetFormattedDateOfBirth();
+		testGetBiography();
 		
 		testSetFirstName();
 		testSetmiddleName();
@@ -21,6 +22,7 @@ class PersonTest {
 		testSetParents();
 		testSetChildren();
 		testSetDateOfBirth();
+		testSetBiography();
 	}
 
 	
@@ -81,13 +83,23 @@ class PersonTest {
 		Person person1 = new Person("Kacey", "Monster");
 		System.out.println("Expected: 1999-02-21");
 		System.out.printf("Outcome: %s\n\n", person1.getDateOfBirth().toString().substring(8, 10));
+		//System.out.println(person1.getDateOfBirth().getMonthValue());
 	}
-	
+/*
 	static void testGetFormattedDateOfBirth() {
 		System.out.println("testGetFormattedDateOfBirth");
 		Person person1 = new Person("Kacey", "Monster");
 		System.out.println("Expected: 2/21/1999");
 		System.out.printf("Outcome: %s\n\n", person1.getFormattedDateOfBirth());
+	}
+*/
+	static void testGetBiography() {
+		System.out.println("testGetBiography");
+		Person person1 = new Person("Kacey", "Monster");
+		//person1.setBiography("Monster High Prom Queen");
+		System.out.println("Expected: ");
+		System.out.printf("Outcome: %s\n\n", person1.getBiography());
+
 	}
 
 	static void testSetFirstName() {
@@ -112,6 +124,15 @@ class PersonTest {
 
 	static void testSetDateOfBirth() {
 		System.out.println("Not yet implemented");
+	}
+
+	static void testSetBiography() {
+		System.out.println("testSetBiography");
+		Person person1 = new Person("Kacey", "Monster");
+		person1.setBiography("Monster High Prom Queen");
+		System.out.println("Expected: Monster High Prom Queen");
+		System.out.printf("Outcome: %s\n\n", person1.getBiography());
+
 	}
 
 }

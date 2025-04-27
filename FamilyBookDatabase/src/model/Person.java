@@ -17,6 +17,7 @@ public class Person {
 	private final IntegerProperty parents;
 	private final IntegerProperty children;
 	private final ObjectProperty<LocalDate> dateOfBirth;
+	private final StringProperty biography;
 	
 	//Constructor
 	public Person() {
@@ -25,24 +26,26 @@ public class Person {
 	
 	public Person(String firstName, String lastName) {
 		this.firstName = new SimpleStringProperty(firstName);
-		this.middleName = new SimpleStringProperty("N/A");
+		this.middleName = new SimpleStringProperty("");
 		this.lastName = new SimpleStringProperty(lastName);
 		
 		// Some initial dummy data, just for convenient testing.
 		this.parents = new SimpleIntegerProperty(0);
 		this.children = new SimpleIntegerProperty(0);
 		this.dateOfBirth = new SimpleObjectProperty<LocalDate>(LocalDate.of(1999, 2, 21));
+		this.biography = new SimpleStringProperty("");
 	}
 	
 	public Person(String firstName, String lastName, int month, int day, int year) {
 		this.firstName = new SimpleStringProperty(firstName);
-		this.middleName = new SimpleStringProperty("N/A");
+		this.middleName = new SimpleStringProperty("");
 		this.lastName = new SimpleStringProperty(lastName);
 		
 		// Some initial dummy data, just for convenient testing.
 		this.parents = new SimpleIntegerProperty(0);
 		this.children = new SimpleIntegerProperty(0);
 		this.dateOfBirth = new SimpleObjectProperty<LocalDate>(LocalDate.of(year, month, day));
+		this.biography = new SimpleStringProperty("");
 	}
 	
 	public Person(String firstName, String middleName, String lastName, int parents, int children, int month, int day, int year) {
@@ -52,6 +55,17 @@ public class Person {
 		this.parents = new SimpleIntegerProperty(parents);
 		this.children = new SimpleIntegerProperty(children);
 		this.dateOfBirth = new SimpleObjectProperty<LocalDate>(LocalDate.of(year, month, day));
+		this.biography = new SimpleStringProperty("");
+	}
+
+	public Person(String firstName, String middleName, String lastName, int parents, int children, int month, int day, int year, String biography) {
+		this.firstName = new SimpleStringProperty(firstName);
+		this.middleName = new SimpleStringProperty(middleName);
+		this.lastName = new SimpleStringProperty(lastName);
+		this.parents = new SimpleIntegerProperty(parents);
+		this.children = new SimpleIntegerProperty(children);
+		this.dateOfBirth = new SimpleObjectProperty<LocalDate>(LocalDate.of(year, month, day));
+		this.biography = new SimpleStringProperty(biography);
 	}
 	
 	// Get Methods
@@ -98,6 +112,11 @@ public class Person {
         LocalDate ld = LocalDate.parse((CharSequence)this.getDateOfBirth().toString(), formatter);
         return ld;
 	}
+
+	public String getBiography() { return biography.get(); }
+
+	public StringProperty biographyProperty() { return biography; }
+
 	
 	//Set Methods
 	public void setFirstName(String firstName) {
@@ -123,6 +142,8 @@ public class Person {
 	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth.set(dateOfBirth);
 	}
+
+	public void setBiography(String biography) { this.biography.set(biography); }
 	
 	//toString?
 }

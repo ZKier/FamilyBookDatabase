@@ -1,8 +1,6 @@
 package view;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -15,7 +13,7 @@ public class RootLayoutController {
 	private MainApp mainApp;
 	
 	//
-	public void setMainApp(MainApp mainApp) {
+	public void setMainApp(@SuppressWarnings("exports") MainApp mainApp) {
 		this.mainApp = mainApp;
 	}
 	
@@ -90,5 +88,13 @@ public class RootLayoutController {
 	public void fileExitHandler() {
 		System.exit(0);
 		System.out.println("this code ran");
+	}
+	
+	/**
+	 * Opens the birthday statistics.
+	 */
+	@FXML
+	private void statisticsBirthdayStatisticshandler() {
+	  mainApp.showBirthdayStatistics();
 	}
 }

@@ -1,18 +1,18 @@
 package view;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
+//import javafx.fxml.FXMLLoader;
+//import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+//import javafx.scene.layout.AnchorPane;
+//import javafx.stage.Modality;
+//import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-import java.io.IOException;
+//import java.io.IOException;
 
 import databaseController.MainApp;
 import model.Person;
@@ -38,6 +38,8 @@ public class OverviewController {
     private Label childrenLabel;
     @FXML
     private Label dateOfBirthLabel;
+    @FXML
+    private Label bioLabel;
 
     // Reference to the main application.
     private MainApp mainApp;
@@ -73,7 +75,7 @@ public class OverviewController {
      * Is called by the main application to give a reference back to itself.
      * @param mainApp
 */
-    public void setMainApp(MainApp mainApp) {
+    public void setMainApp(@SuppressWarnings("exports") MainApp mainApp) {
         this.mainApp = mainApp;
 
         // Add observable list data to the table
@@ -97,7 +99,8 @@ public class OverviewController {
             
             //Convert the birthday into a String! 
             dateOfBirthLabel.setText(DateUtil.format(person.getDateOfBirth()));
-            // birthdayLabel.setText(...);
+
+            bioLabel.setText(person.getBiography());
         } else {
             // Person is null, remove all the text.
             firstNameLabel.setText("");
@@ -107,6 +110,7 @@ public class OverviewController {
             parentsLabel.setText("");
             childrenLabel.setText("");
             dateOfBirthLabel.setText("");
+            bioLabel.setText("");
         }
     }
     

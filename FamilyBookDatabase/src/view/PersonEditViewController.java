@@ -3,6 +3,7 @@ package view;
 import java.net.URL;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import model.Person;
 import util.DateUtil;
@@ -24,6 +25,8 @@ public class PersonEditViewController {
     private TextField childrenTextField;
     @FXML
     private TextField dateOfBirthTextField;
+    @FXML
+    private TextArea biographyTextArea;
 	
     private Stage dialogStage;
     private Person person;
@@ -40,15 +43,15 @@ public class PersonEditViewController {
     }
     
     //Sets the stage of this dialogue
-    public void setDialogStage(Stage dialogStage) {
+    public void setDialogStage(@SuppressWarnings("exports") Stage dialogStage) {
         this.dialogStage = dialogStage;
-     // Adds an icon the the stage
+        // Adds an icon to the stage
         URL imageUrl = getClass().getResource("/resources/images/database_image_freepik2.png");
         this.dialogStage.getIcons().add(new Image(imageUrl.toExternalForm()));
     }
     
     // Sets the textfield's information using the person information
-    public void setPerson(Person person) {
+    public void setPerson(@SuppressWarnings("exports") Person person) {
         this.person = person;
 
         firstNameTextField.setText(person.getFirstName());
@@ -58,6 +61,7 @@ public class PersonEditViewController {
         childrenTextField.setText(Integer.toString(person.getChildren()));
         dateOfBirthTextField.setText(DateUtil.format(person.getDateOfBirth()));
         dateOfBirthTextField.setPromptText("dd.mm.yyyy");
+        biographyTextArea.setText(person.getBiography());
     }
     
     /**
@@ -80,6 +84,7 @@ public class PersonEditViewController {
     		person.setParents(Integer.parseInt(parentsTextField.getText()));
     		person.setChildren(Integer.parseInt(childrenTextField.getText()));
             person.setDateOfBirth(DateUtil.parse(dateOfBirthTextField.getText()));
+            person.setBiography(biographyTextArea.getText());
 
             okClicked = true;
             dialogStage.close();
@@ -105,9 +110,11 @@ public class PersonEditViewController {
     		errorMessage += "No valid first name!\n"; 
     	}
     	// Middle name handler
+        /*
     	if (middleNameTextField.getText() == null || middleNameTextField.getText().length() == 0) {
     		errorMessage += "No valid middle name!\n"; 
     	}
+        */
     	// Last name handler
     	if (lastNameTextField.getText() == null || lastNameTextField.getText().length() == 0) {
     		errorMessage += "No valid last name!\n"; 
@@ -142,20 +149,6 @@ public class PersonEditViewController {
                 errorMessage += "No valid birthday. Use the format dd/mm/yyyy!\n";
             }
         }
- 
-        // Useful Information.
-        /*
-        if (parentsTextField.getText() == null || parentsTextField.getText().length() == 0) {
-            errorMessage += "No valid amount of parents!\n"; 
-        } else {
-            // try to parse the postal code into an int.
-            try {
-                Integer.parseInt(parentsTextField.getText());
-            } catch (NumberFormatException e) {
-                errorMessage += "Value for 'Amount of Parents' invalid! (must be an integer)\n"; 
-            }
-        }
-*/
 
         if (errorMessage.length() == 0) {
             return true;
