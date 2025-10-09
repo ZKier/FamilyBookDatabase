@@ -59,7 +59,7 @@
                                           <Label text="Middle Name:" GridPane.rowIndex="1" />
                                           <Label text="Last Name:" GridPane.rowIndex="2" />
                                           <Label text="Date of Birth:" GridPane.rowIndex="3" />
-                                          <Label text="Parents" GridPane.rowIndex="4" />
+                                          <Label text="Parents:" GridPane.rowIndex="4" />
                                           <Label text="Children:" GridPane.rowIndex="5" />
                                           <Label fx:id="firstNameLabel" text="Label" GridPane.columnIndex="1" />
                                           <Label fx:id="middleNameLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />

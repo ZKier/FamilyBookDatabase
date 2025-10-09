@@ -2,15 +2,19 @@ package view;
 
 import java.net.URL;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import model.Person;
+import org.json.JSONArray;
 import util.DateUtil;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import databaseController.MainApp;
 
 public class PersonEditViewController {
 	@FXML
@@ -27,13 +31,30 @@ public class PersonEditViewController {
     private TextField dateOfBirthTextField;
     @FXML
     private TextArea biographyTextArea;
+
+    // Reference to the main application.
+    private MainApp mainApp;
+    @FXML
+    private ComboBox<String> childrenNameBox = new ComboBox<>();
 	
     private Stage dialogStage;
     private Person person;
     private boolean okClicked = false;
-    
-    // The constructor.
-    // The constructor is called before the initialize() method.
+
+/*
+    public void setMainApp(@SuppressWarnings("exports") MainApp mainApp) {
+        this.mainApp = mainApp;
+
+        // Add observable list data to the table
+        personTable.setItems(mainApp.getPersonData());
+    }
+    // Populate the lists
+*/
+
+
+    /** The constructor.
+     The constructor is called before the initialize() method.
+     */
     public PersonEditViewController() {
     }
     
@@ -63,6 +84,20 @@ public class PersonEditViewController {
         dateOfBirthTextField.setPromptText("dd.mm.yyyy");
         biographyTextArea.setText(person.getBiography());
     }
+
+    // Populates the dropdown of children
+    public void setChildrenNameBox(ObservableList<Person> personData) {
+        // Work through the list
+        java.util.Iterator<Person> iterator = personData.iterator();
+
+        while (iterator.hasNext()) {
+            Person person = iterator.next();
+            // Populates Children's Name dropdown box.
+            String firstAndLastName = person.getFirstName() + " " + person.getLastName();
+            childrenNameBox.getItems().add(firstAndLastName);
+        }
+        // Now the issue is making that link between children and parent, then showing the data on the chart. when i click.
+    }
     
     /**
      * Returns true if the user clicked OK, false otherwise.
@@ -81,8 +116,21 @@ public class PersonEditViewController {
     		person.setFirstName(firstNameTextField.getText());
     		person.setMiddleName(middleNameTextField.getText());
     		person.setLastName(lastNameTextField.getText());
-    		person.setParents(Integer.parseInt(parentsTextField.getText()));
-    		person.setChildren(Integer.parseInt(childrenTextField.getText()));
+
+            // If parentsTextField is empty, return 0, else return .getText()
+            if (parentsTextField.getText().isEmpty() || childrenTextField.getText() == null) {
+                person.setParents(0);
+            } else {
+                person.setParents(Integer.parseInt(parentsTextField.getText()));
+            }
+
+            // If childrenTextField is empty, return 0, else return .getText()
+            if (childrenTextField.getText().isEmpty() || childrenTextField.getText() == null) {
+                person.setChildren(0);
+            } else {
+                person.setChildren(Integer.parseInt(childrenTextField.getText()));
+            }
+
             person.setDateOfBirth(DateUtil.parse(dateOfBirthTextField.getText()));
             person.setBiography(biographyTextArea.getText());
 
@@ -121,7 +169,7 @@ public class PersonEditViewController {
     		}
     	// Parents handler
     	if (parentsTextField.getText() == null || parentsTextField.getText().length() == 0) {
-    		errorMessage += "No valid amount of parents!\n"; 
+    		// Handled elsewhere
     	} else {
     		// Try to parse the text field into an integer.
     		try {
@@ -130,9 +178,12 @@ public class PersonEditViewController {
     			errorMessage += "Value for 'Amount of Parents' invalid! (must be an integer)\n"; 
     		}
     	}
-    	// Children handler
+    	/** Children handler
+         * States that if the field is null or == 0,
+         * the error message pops up. I DON'T WANT IT TO SHOW THIS, it's pointless
+    	* */
     	if (childrenTextField.getText() == null || childrenTextField.getText().length() == 0) {
-            errorMessage += "Value for 'Amount of Children' missing!\n"; 
+            // No need to do anything because this is handled elsewhere
         } else {
         	// Try to parse the text field into an integer
         	try {
@@ -165,4 +216,6 @@ public class PersonEditViewController {
             return false;
         }
     }
+
+
 }

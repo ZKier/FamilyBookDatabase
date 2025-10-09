@@ -134,6 +134,8 @@ public class MainApp extends Application {
             PersonEditViewController controller = loader.getController();
             controller.setDialogStage(dialogStage);
             controller.setPerson(person);
+			// Shows code for each person but I want their name to show up. :) ##Progressssss
+			controller.setChildrenNameBox(personData);
 
             // Show the dialog and wait until the user closes it
             dialogStage.showAndWait();
