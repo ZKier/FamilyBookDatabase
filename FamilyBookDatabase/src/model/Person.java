@@ -9,6 +9,9 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Person {
 	private final StringProperty firstName;
@@ -18,6 +21,9 @@ public class Person {
 	private final IntegerProperty children;
 	private final ObjectProperty<LocalDate> dateOfBirth;
 	private final StringProperty biography;
+
+	private List<Person> parentsList = new ArrayList<>();
+	private List<Person> childrenList = new ArrayList<>();
 	
 	//Constructor
 	public Person() {
@@ -93,14 +99,18 @@ public class Person {
 		return lastName;
 	}
 	
-	public int getParents() {
+	public int getParentsCount() {
 		return parents.get();
 	}
+
+	public List<Person> getParentsList() { return parentsList; }
 	
-	public int getChildren() {
+	public int getChildrenCount() {
 		return children.get();
 	}
-	
+
+	public List<Person> getChildrenList() { return childrenList; }
+
 	// I want this to have several optional parameters for return formatting | might worry about this later
 	public LocalDate getDateOfBirth() {
 		return dateOfBirth.get();
@@ -117,6 +127,51 @@ public class Person {
 
 	public StringProperty biographyProperty() { return biography; }
 
+	public String getFirstMiddleLastNameOfParents() {
+		Iterator<Person> iterator = parentsList.iterator();
+		StringBuilder firstMiddleLastNameList = new StringBuilder();
+		while(iterator.hasNext()) {
+			String firstMiddleLastName = "";
+			Person person = iterator.next();
+			String firstName1 = person.getFirstName();
+			String middleName1 = person.getMiddleName();
+			String middleNameInitials1 = getInitals(middleName1);
+			String lastName1 = person.getLastName();
+
+			firstMiddleLastName = firstName1 + middleNameInitials1 + lastName1;
+			firstMiddleLastNameList.append(firstMiddleLastName + ", ");
+		}
+		return firstMiddleLastNameList.toString();
+	}
+
+	public String getFirstMiddleLastNameOfChildren() {
+		Iterator<Person> iterator = childrenList.iterator();
+		StringBuilder firstMiddleLastNameList = new StringBuilder();
+		while(iterator.hasNext()) {
+			String firstMiddleLastName = "";
+			Person person = iterator.next();
+			String firstName1 = person.getFirstName();
+			String middleName1 = person.getMiddleName();
+			String middleNameInitials1 = getInitals(middleName1);
+			String lastName1 = person.getLastName();
+
+			firstMiddleLastName = firstName1 + middleNameInitials1 + lastName1;
+			firstMiddleLastNameList.append(firstMiddleLastName + ", ");
+		}
+		return firstMiddleLastNameList.toString();
+	}
+	private String getInitals(String fullName) {
+		String[] names = fullName.trim().split("\\s+"); // split by one or more spaces
+		StringBuilder initals = new StringBuilder();
+
+		for (String name : names) {
+			if (!name.isEmpty()) {
+				initals.append(name.charAt(0));
+				initals.append(". ");
+			}
+		}
+		return initals.toString();
+	}
 	
 	//Set Methods
 	public void setFirstName(String firstName) {
@@ -144,6 +199,20 @@ public class Person {
 	}
 
 	public void setBiography(String biography) { this.biography.set(biography); }
-	
+
+
+	public void addParent(Person parent) {
+		if (!parentsList.contains(parent)) {
+			parentsList.add(parent);
+			parent.addChild(this); // keep relationship consistent
+		}
+	}
+
+	public void addChild(Person child) {
+		if (!childrenList.contains(child)) {
+			childrenList.add(child);
+			child.addParent(this); // keep relationship consistent
+		}
+	}
 	//toString?
 }

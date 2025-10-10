@@ -8,13 +8,13 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import model.Person;
-import org.json.JSONArray;
 import util.DateUtil;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import databaseController.MainApp;
+import java.util.Iterator;
 
 public class PersonEditViewController {
 	@FXML
@@ -78,8 +78,8 @@ public class PersonEditViewController {
         firstNameTextField.setText(person.getFirstName());
         middleNameTextField.setText(person.getMiddleName());
         lastNameTextField.setText(person.getLastName());
-        parentsTextField.setText(Integer.toString(person.getParents()));
-        childrenTextField.setText(Integer.toString(person.getChildren()));
+        //parentsTextField.setText(Integer.toString(person.getParentsCount()));
+        //childrenTextField.setText(Integer.toString(person.getChildrenCount()));
         dateOfBirthTextField.setText(DateUtil.format(person.getDateOfBirth()));
         dateOfBirthTextField.setPromptText("dd.mm.yyyy");
         biographyTextArea.setText(person.getBiography());
@@ -88,7 +88,7 @@ public class PersonEditViewController {
     // Populates the dropdown of children
     public void setChildrenNameBox(ObservableList<Person> personData) {
         // Work through the list
-        java.util.Iterator<Person> iterator = personData.iterator();
+        Iterator<Person> iterator = personData.iterator();
 
         while (iterator.hasNext()) {
             Person person = iterator.next();

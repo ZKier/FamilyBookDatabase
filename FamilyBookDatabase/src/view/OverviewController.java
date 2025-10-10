@@ -93,9 +93,10 @@ public class OverviewController {
             firstNameLabel.setText(person.getFirstName());
             middleNameLabel.setText(person.getMiddleName());
             lastNameLabel.setText(person.getLastName());
-            
-            parentsLabel.setText(Integer.toString(person.getParents()));
-            childrenLabel.setText(Integer.toString(person.getChildren()));
+
+            // I want to change this from count to the first name, middle initial, and last name of each perent and child.
+            parentsLabel.setText(Integer.toString(person.getParentsCount()));
+            childrenLabel.setText(Integer.toString(person.getChildrenCount()));
             
             //Convert the birthday into a String! 
             dateOfBirthLabel.setText(DateUtil.format(person.getDateOfBirth()));
@@ -138,7 +139,7 @@ public class OverviewController {
     @FXML
     private void handleNewPerson() {
         Person tempPerson = new Person();
-        boolean okClicked = mainApp.showPersonEditOverview(tempPerson);
+        boolean okClicked = mainApp.showPersonEditOverviewScene(tempPerson);
         if (okClicked) {
             mainApp.getPersonData().add(tempPerson);
         }
@@ -149,7 +150,7 @@ public class OverviewController {
     private void handleEditPerson() {
         Person selectedPerson = personTable.getSelectionModel().getSelectedItem();
         if (selectedPerson != null) {
-            boolean okClicked = mainApp.showPersonEditOverview(selectedPerson);
+            boolean okClicked = mainApp.showPersonEditOverviewScene(selectedPerson);
             if (okClicked) {
                 showPersonDetails(selectedPerson);
             }

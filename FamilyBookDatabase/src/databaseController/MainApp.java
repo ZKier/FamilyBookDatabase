@@ -112,8 +112,41 @@ public class MainApp extends Application {
             e.printStackTrace();
         }
     }
-    
-    // Allows the initialization of the edit view
+
+	// Opens a new scene for a new edit view (no new tab)
+	public boolean showPersonEditOverviewScene(Person person) {
+		try {
+			// Load person edit overview scene.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("/view/PersonEditViewScene.fxml"));
+			AnchorPane personEditOverviewScene = (AnchorPane) loader.load();
+
+			// Set person overview into the center of root layout.
+			rootLayout.setCenter(personEditOverviewScene);
+
+			// Set the person into the controller.
+			// Established this controller using SceneBuilder
+			PersonEditViewController controller = loader.getController();
+			controller.setPerson(person);
+
+			//System.out.println(controller); // returns view.OverviewController@70cf0b45
+			//controller.setMainApp(this);
+
+			// Shows code for each person but I want their name to show up. :) ##Progressssss
+			//controller.setChildrenNameBox(personData);
+
+			// Show the dialog and wait until the user closes it
+			//dialogStage.showAndWait();
+
+			return controller.isOkClicked();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+    // Allows the initialization of the edit view (New Tab) I want to change this
     public boolean showPersonEditOverview(Person person) {
         try {
             // Load the FXML file and create a new stage for the pop-up dialog.
@@ -245,8 +278,8 @@ public class MainApp extends Application {
 		jsonObject.put("firstName", person.getFirstName());
 		jsonObject.put("middleName", person.getMiddleName());
 		jsonObject.put("lastName", person.getLastName());
-		jsonObject.put("parents", person.getParents());
-		jsonObject.put("children", person.getChildren());
+		jsonObject.put("parents", person.getParentsCount());
+		jsonObject.put("children", person.getChildrenCount());
 		jsonObject.put("month", person.getDateOfBirth().toString().substring(5, 7));
 		jsonObject.put("day", person.getDateOfBirth().toString().substring(8, 10));
 		jsonObject.put("year", person.getDateOfBirth().toString().substring(0, 4));

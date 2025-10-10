@@ -68,14 +68,14 @@ class PersonTest {
 		System.out.println("testGetParents");
 		Person person1 = new Person("Kacey", "Monster");
 		System.out.println("Expected: 0");
-		System.out.printf("Outcome: %d\n\n", person1.getParents());
+		System.out.printf("Outcome: %d\n\n", person1.getParentsCount());
 	}
 
 	static void testGetChildren() {
 		System.out.println("testGetChildren");
 		Person person1 = new Person("Kacey", "Monster");
 		System.out.println("Expected: 0");
-		System.out.printf("Outcome: %d\n\n", person1.getChildren());
+		System.out.printf("Outcome: %d\n\n", person1.getChildrenCount());
 	}
 
 	static void testGetDateOfBirth() {
