@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Label?>
@@ -71,8 +72,14 @@
                                           <TextField fx:id="middleNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                           <TextField fx:id="lastNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                           <TextField fx:id="dateOfBirthTextField" promptText="*EDIT SECTION LATER*" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                          <Label fx:id="updateParentsLabel" text="+ Add/Remove Parent..." GridPane.rowIndex="5" />
-                                          <Label fx:id="updateChildrenLabel" text="+ Add/Remove Child..." GridPane.rowIndex="7" />
+                                          <Label fx:id="updateParentsLabel" onMouseClicked="#handleOpenParentUpdateScene" text="+ Add/Remove Parent..." textFill="WHITE" underline="true" GridPane.rowIndex="5">
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor></Label>
+                                          <Label fx:id="updateChildrenLabel" text="+ Add/Remove Child..." textFill="WHITE" underline="true" wrapText="true" GridPane.rowIndex="7">
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor></Label>
                                           <Label fx:id="parentsNamesLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                           <Label fx:id="childrenNamesLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                                        </children>

@@ -146,6 +146,27 @@ public class MainApp extends Application {
 		}
 	}
 
+	// Shows the person overview inside the root layout.
+	public void showEditParentChildOverview() {
+		try {
+			// Load person overview.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("/view/Overview.fxml"));
+			AnchorPane personOverview = (AnchorPane) loader.load();
+
+			// Set person overview into the center of root layout.
+			rootLayout.setCenter(personOverview);
+
+			// Give the controller access to the MainApp.
+			OverviewController controller = loader.getController();
+			//System.out.println(controller); // returns view.OverviewController@70cf0b45
+			controller.setMainApp(this);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
     // Allows the initialization of the edit view (New Tab) I want to change this
     public boolean showPersonEditOverview(Person person) {
         try {
