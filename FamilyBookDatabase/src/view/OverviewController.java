@@ -35,7 +35,11 @@ public class OverviewController {
     @FXML
     private Label parentsLabel;
     @FXML
+    private Label parentsNamesLabel;
+    @FXML
     private Label childrenLabel;
+    @FXML
+    private Label childrenNamesLabel;
     @FXML
     private Label dateOfBirthLabel;
     @FXML
@@ -95,8 +99,20 @@ public class OverviewController {
             lastNameLabel.setText(person.getLastName());
 
             // I want to change this from count to the first name, middle initial, and last name of each perent and child.
-            parentsLabel.setText(Integer.toString(person.getParentsCount()));
-            childrenLabel.setText(Integer.toString(person.getChildrenCount()));
+            parentsLabel.setText("Parents: " + Integer.toString(person.getParentsCount()));
+            childrenLabel.setText("Children: " + Integer.toString(person.getChildrenCount()));
+
+            if (person.getParentsCount() == 0) {
+                parentsNamesLabel.setText("No available parents.");
+            } else {
+                parentsNamesLabel.setText(person.getFirstMiddleLastNameOfParents());
+            }
+
+            if (person.getChildrenCount() == 0) {
+                childrenNamesLabel.setText("No available children.");
+            } else {
+                childrenNamesLabel.setText(person.getFirstMiddleLastNameOfChildren());
+            }
             
             //Convert the birthday into a String! 
             dateOfBirthLabel.setText(DateUtil.format(person.getDateOfBirth()));
@@ -108,8 +124,10 @@ public class OverviewController {
             middleNameLabel.setText("");
             lastNameLabel.setText("");
             
-            parentsLabel.setText("");
-            childrenLabel.setText("");
+            parentsLabel.setText("Person: ");
+            childrenLabel.setText("Children: ");
+            parentsNamesLabel.setText("");
+            childrenNamesLabel.setText("");
             dateOfBirthLabel.setText("");
             bioLabel.setText("");
         }

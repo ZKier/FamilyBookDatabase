@@ -4,12 +4,9 @@ import java.net.URL;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import model.Person;
 import util.DateUtil;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -17,7 +14,14 @@ import databaseController.MainApp;
 import java.util.Iterator;
 
 public class PersonEditViewController {
-	@FXML
+    @FXML
+    private TableView<Person> personTable;
+    @FXML
+    private TableColumn<Person, String> firstNameColumn;
+    @FXML
+    private TableColumn<Person, String> lastNameColumn;
+
+    @FXML
 	private TextField firstNameTextField;
     @FXML
     private TextField middleNameTextField;
@@ -26,7 +30,19 @@ public class PersonEditViewController {
     @FXML
     private TextField parentsTextField;
     @FXML
+    private Label parentsLabel;
+    @FXML
+    private Label parentsNamesLabel;
+    @FXML
+    private Label updateParentsLabel;
+    @FXML
     private TextField childrenTextField;
+    @FXML
+    private Label childrenLabel;
+    @FXML
+    private Label childrenNamesLabel;
+    @FXML
+    private Label updateChildrenLabel;
     @FXML
     private TextField dateOfBirthTextField;
     @FXML
@@ -61,6 +77,13 @@ public class PersonEditViewController {
     //initializes the controller class
     @FXML
     private void initialize() {
+        // Initialize the person table with the two columns.
+        firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
+        lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
+
+        // Listen for selection changes and show the person details when changed.
+        personTable.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> showPersonDetails(newValue));
     }
     
     //Sets the stage of this dialogue
@@ -80,6 +103,21 @@ public class PersonEditViewController {
         lastNameTextField.setText(person.getLastName());
         //parentsTextField.setText(Integer.toString(person.getParentsCount()));
         //childrenTextField.setText(Integer.toString(person.getChildrenCount()));
+        parentsLabel.setText("Parents: " + Integer.toString(person.getParentsCount()));
+        childrenLabel.setText("Children: " + Integer.toString(person.getChildrenCount()));
+
+        if (person.getParentsCount() == 0) {
+            parentsNamesLabel.setText("No available parents.");
+        } else {
+            parentsNamesLabel.setText(person.getFirstMiddleLastNameOfParents());
+        }
+
+        if (person.getChildrenCount() == 0) {
+            childrenNamesLabel.setText("No available children.");
+        } else {
+            childrenNamesLabel.setText(person.getFirstMiddleLastNameOfChildren());
+        }
+
         dateOfBirthTextField.setText(DateUtil.format(person.getDateOfBirth()));
         dateOfBirthTextField.setPromptText("dd.mm.yyyy");
         biographyTextArea.setText(person.getBiography());
@@ -98,7 +136,47 @@ public class PersonEditViewController {
         }
         // Now the issue is making that link between children and parent, then showing the data on the chart. when i click.
     }
-    
+
+    public void showPersonDetails(Person person) {
+        if (person != null) {
+            // Fill the textFields and textArea with info from the person object.
+            firstNameTextField.setText(person.getFirstName());
+            middleNameTextField.setText(person.getMiddleName());
+            lastNameTextField.setText(person.getLastName());
+
+            // I want to change this from count to the first name, middle initial, and last name of each perent and child.
+            parentsLabel.setText("Parents: " + Integer.toString(person.getParentsCount()));
+            childrenLabel.setText("Children: " + Integer.toString(person.getChildrenCount()));
+
+            if (person.getParentsCount() == 0) {
+                parentsNamesLabel.setText("No available parents.");
+            } else {
+                parentsNamesLabel.setText(person.getFirstMiddleLastNameOfParents());
+            }
+
+            if (person.getChildrenCount() == 0) {
+                childrenNamesLabel.setText("No available children.");
+            } else {
+                childrenNamesLabel.setText(person.getFirstMiddleLastNameOfChildren());
+            }
+
+            //Convert the birthday into a String!
+            dateOfBirthTextField.setText(DateUtil.format(person.getDateOfBirth()));
+
+            biographyTextArea.setText(person.getBiography());
+        } else {
+            // Person is null, remove all the text.
+            //firstNameLabel.setText("");
+            //middleNameLabel.setText("");
+            //lastNameLabel.setText("");
+
+            parentsLabel.setText("");
+            childrenLabel.setText("");
+            //dateOfBirthLabel.setText("");
+            //bioLabel.setText("");
+        }
+    }
+
     /**
      * Returns true if the user clicked OK, false otherwise.
      * @return
@@ -140,11 +218,11 @@ public class PersonEditViewController {
     }
     
     /**
-     * Called when the user clicks cancel.
+     * Called when the user clicks cancel. Returns the user to the previous screen.
      */
     @FXML
     private void handleCancel() {
-        dialogStage.close();
+        mainApp.showPersonOverview();
     }
 
     /**
@@ -217,5 +295,15 @@ public class PersonEditViewController {
         }
     }
 
+    public void setMainApp(@SuppressWarnings("exports") MainApp mainApp) {
+        this.mainApp = mainApp;
 
+        // Add observable list data to the table
+        personTable.setItems(mainApp.getPersonData());
+    }
+
+    private void handleOpenParentUpdateScene() {
+        // Open up a new scene.
+        System.out.println("this will work");
+    }
 }

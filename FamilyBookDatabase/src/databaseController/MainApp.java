@@ -129,8 +129,8 @@ public class MainApp extends Application {
 			PersonEditViewController controller = loader.getController();
 			controller.setPerson(person);
 
-			//System.out.println(controller); // returns view.OverviewController@70cf0b45
-			//controller.setMainApp(this);
+			// Keeps the main app consistent.
+			controller.setMainApp(this);
 
 			// Shows code for each person but I want their name to show up. :) ##Progressssss
 			//controller.setChildrenNameBox(personData);

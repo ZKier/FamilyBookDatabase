@@ -11,6 +11,7 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
@@ -20,7 +21,7 @@
    <children>
       <SplitPane dividerPositions="0.29797979797979796" layoutX="-42.0" layoutY="-10.0" prefHeight="300.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0">
                <children>
                   <TableView fx:id="personTable" layoutX="-25.0" layoutY="14.0" prefHeight="298.4" prefWidth="175.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
@@ -33,13 +34,13 @@
                   </TableView>
                </children>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" styleClass="background" stylesheets="@DarkTheme.css">
+          <AnchorPane minHeight="0.0" minWidth="0.0" styleClass="background" stylesheets="@DarkTheme.css">
                <children>
-                  <ScrollPane stylesheets="@DarkTheme.css" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                    <content>
-                      <AnchorPane prefHeight="400.0" prefWidth="468.0" stylesheets="@DarkTheme.css">
-                           <children>
-                              <VBox layoutX="-4.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <ScrollPane fitToHeight="true" fitToWidth="true" stylesheets="@DarkTheme.css" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <content>
+                        <BorderPane>
+                           <center>
+                              <VBox BorderPane.alignment="CENTER">
                                  <children>
                                     <Label text="Person Details:" />
                                     <GridPane>
@@ -63,35 +64,35 @@
                                           <Label text="Middle Name:" GridPane.rowIndex="1" />
                                           <Label text="Last Name:" GridPane.rowIndex="2" />
                                           <Label text="Date of Birth:" GridPane.rowIndex="3" />
-                                          <Label text="Parents:" GridPane.rowIndex="4" />
-                                          <Label text="Children:" GridPane.rowIndex="6" />
+                                          <Label fx:id="parentsLabel" text="Parents:" GridPane.rowIndex="4" />
+                                          <Label fx:id="childrenLabel" text="Children:" GridPane.rowIndex="6" />
                                           <Label text="Biography:" GridPane.rowIndex="8" />
                                           <TextField fx:id="firstNameTextField" prefHeight="35.0" prefWidth="163.0" GridPane.columnIndex="1" />
                                           <TextField fx:id="middleNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                           <TextField fx:id="lastNameTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                           <TextField fx:id="dateOfBirthTextField" promptText="*EDIT SECTION LATER*" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                          <Label text="+ Add/Remove Parent..." GridPane.rowIndex="5" />
-                                          <Label text="+ Add/Remove Child..." GridPane.rowIndex="7" />
-                                          <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                                          <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                          <Label fx:id="updateParentsLabel" text="+ Add/Remove Parent..." GridPane.rowIndex="5" />
+                                          <Label fx:id="updateChildrenLabel" text="+ Add/Remove Child..." GridPane.rowIndex="7" />
+                                          <Label fx:id="parentsNamesLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                          <Label fx:id="childrenNamesLabel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6" />
                                        </children>
                                     </GridPane>
-                                    <TextArea fx:id="biographyTextArea" prefHeight="85.0" prefWidth="502.0" wrapText="true" />
+                                    <TextArea fx:id="biographyTextArea" wrapText="true" VBox.vgrow="ALWAYS" />
                                  </children>
                                  <padding>
                                     <Insets left="10.0" right="10.0" />
                                  </padding>
                               </VBox>
-                           </children>
-                        </AnchorPane>
-                    </content>
+                           </center>
+                        </BorderPane>
+                     </content>
                   </ScrollPane>
                   <ButtonBar layoutX="4.0" layoutY="421.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                     <buttons>
                       <Button mnemonicParsing="false" text="New..." />
                         <Button mnemonicParsing="false" prefHeight="33.0" text="Delete..." />
                         <Button mnemonicParsing="false" text="OK" />
-                        <Button mnemonicParsing="false" text="Cancel" />
+                        <Button mnemonicParsing="false" onAction="#handleCancel" text="Cancel" />
                     </buttons>
                      <padding>
                         <Insets bottom="10.0" right="10.0" />
