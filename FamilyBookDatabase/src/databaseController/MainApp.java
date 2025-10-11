@@ -23,10 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.*;
 import model.Person;
-import view.BirthdayStatisticsController;
-import view.OverviewController;
-import view.PersonEditViewController;
-import view.RootLayoutController;
+import view.*;
 
 public class MainApp extends Application {
 
@@ -151,14 +148,14 @@ public class MainApp extends Application {
 		try {
 			// Load person overview.
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("/view/Overview.fxml"));
-			AnchorPane personOverview = (AnchorPane) loader.load();
+			loader.setLocation(MainApp.class.getResource("/view/ParentsChildrenUpdateScene.fxml"));
+			AnchorPane parentsChildrenUpdateScene = (AnchorPane) loader.load();
 
 			// Set person overview into the center of root layout.
-			rootLayout.setCenter(personOverview);
+			rootLayout.setCenter(parentsChildrenUpdateScene);
 
 			// Give the controller access to the MainApp.
-			OverviewController controller = loader.getController();
+			ParentsChildrenUpdateSceneController controller = loader.getController();
 			//System.out.println(controller); // returns view.OverviewController@70cf0b45
 			controller.setMainApp(this);
 

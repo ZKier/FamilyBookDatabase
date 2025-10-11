@@ -307,7 +307,7 @@ public class PersonEditViewController {
         // Change color and hold until release (make a release method)
         // Open up a new scene.
         System.out.println("this will work");
-        mainApp.showPersonOverview();
+        mainApp.showEditParentChildOverview();
 
     }
 }

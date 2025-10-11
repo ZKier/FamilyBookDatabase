@@ -8,16 +8,16 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="453.0" prefWidth="674.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.OverviewController">
+<AnchorPane prefHeight="453.0" prefWidth="674.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ParentsChildrenUpdateSceneController">
    <children>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="454.0" prefWidth="275.0" HBox.hgrow="ALWAYS">
                <children>
-                  <TableView fx:id="personTable" layoutX="-25.0" layoutY="14.0" prefHeight="298.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="possibleParentsOrChildrenTable" layoutX="-25.0" layoutY="14.0" prefHeight="298.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                      <TableColumn fx:id="firstNameColumn" text="First Name" />
-                      <TableColumn fx:id="lastNameColumn" text="Last Name" />
+                      <TableColumn fx:id="possibleFirstNameColumn" text="First Name" />
+                      <TableColumn fx:id="possibleLastNameColumn" text="Last Name" />
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -32,21 +32,21 @@
                         <Insets left="10.0" right="10.0" />
                      </padding>
                      <children>
-                      <Button mnemonicParsing="false" onAction="#handleNewPerson" prefWidth="135.0" text="Add &gt;&gt;&gt;" />
-                        <Button alignment="TOP_CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleDeletePerson" prefHeight="33.0" prefWidth="135.0" text="&lt;&lt;&lt; Remove" />
-                        <Button alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="40.0" layoutY="197.0" mnemonicParsing="false" onAction="#handleDeletePerson" prefHeight="33.0" prefWidth="135.0" text="New..." />
-                        <Button mnemonicParsing="false" onAction="#handleEditPerson" prefWidth="135.0" text="OK" />
-                        <Button mnemonicParsing="false" onAction="#handleEditPerson" prefWidth="135.0" text="Cancel" />
+                      <Button mnemonicParsing="false" prefWidth="135.0" text="Add &gt;&gt;&gt;" />
+                        <Button alignment="TOP_CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="33.0" prefWidth="135.0" text="&lt;&lt;&lt; Remove" />
+                        <Button alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="40.0" layoutY="197.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="135.0" text="New..." />
+                        <Button mnemonicParsing="false" prefWidth="135.0" text="OK" />
+                        <Button mnemonicParsing="false" prefWidth="135.0" text="Cancel" />
                      </children>
                   </VBox>
                </children>
             </AnchorPane>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="454.0" prefWidth="275.0" HBox.hgrow="ALWAYS">
                <children>
-                  <TableView fx:id="personTable1" layoutX="57.0" layoutY="14.0" prefHeight="452.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="currentParentsOrChildrenTable" layoutX="57.0" layoutY="14.0" prefHeight="452.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <columns>
-                        <TableColumn fx:id="firstNameColumn1" text="First Name" />
-                        <TableColumn fx:id="lastNameColumn1" text="Last Name" />
+                        <TableColumn fx:id="currentFirstNameColumn" text="First Name" />
+                        <TableColumn fx:id="currentLastNameColumn" text="Last Name" />
                      </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
