@@ -83,7 +83,7 @@ public class PersonEditViewController {
 
         // Listen for selection changes and show the person details when changed.
         personTable.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> showPersonDetails(newValue));
+                (observable, oldValue, newValue) -> setPerson(newValue));
     }
     
     //Sets the stage of this dialogue
@@ -94,7 +94,7 @@ public class PersonEditViewController {
         this.dialogStage.getIcons().add(new Image(imageUrl.toExternalForm()));
     }
     
-    // Sets the textfield's information using the person information
+    // Sets the editViewController's person of interest and the textfield's information as the imputed "person" information
     public void setPerson(@SuppressWarnings("exports") Person person) {
         this.person = person;
 
@@ -195,8 +195,9 @@ public class PersonEditViewController {
     		person.setMiddleName(middleNameTextField.getText());
     		person.setLastName(lastNameTextField.getText());
 
+            /*
             // If parentsTextField is empty, return 0, else return .getText()
-            if (parentsTextField.getText().isEmpty() || childrenTextField.getText() == null) {
+            if (parentsTextField.getText().isEmpty() || parentsTextField.getText() == null) {
                 person.setParents(0);
             } else {
                 person.setParents(Integer.parseInt(parentsTextField.getText()));
@@ -208,12 +209,12 @@ public class PersonEditViewController {
             } else {
                 person.setChildren(Integer.parseInt(childrenTextField.getText()));
             }
-
+*/
             person.setDateOfBirth(DateUtil.parse(dateOfBirthTextField.getText()));
             person.setBiography(biographyTextArea.getText());
 
             okClicked = true;
-            dialogStage.close();
+            mainApp.showPersonOverview();
         }
     }
     
@@ -245,6 +246,7 @@ public class PersonEditViewController {
     	if (lastNameTextField.getText() == null || lastNameTextField.getText().length() == 0) {
     		errorMessage += "No valid last name!\n"; 
     		}
+        /*
     	// Parents handler
     	if (parentsTextField.getText() == null || parentsTextField.getText().length() == 0) {
     		// Handled elsewhere
@@ -256,10 +258,13 @@ public class PersonEditViewController {
     			errorMessage += "Value for 'Amount of Parents' invalid! (must be an integer)\n"; 
     		}
     	}
+
+         */
     	/** Children handler
          * States that if the field is null or == 0,
          * the error message pops up. I DON'T WANT IT TO SHOW THIS, it's pointless
     	* */
+        /*
     	if (childrenTextField.getText() == null || childrenTextField.getText().length() == 0) {
             // No need to do anything because this is handled elsewhere
         } else {
@@ -270,6 +275,8 @@ public class PersonEditViewController {
         		errorMessage += "Value for 'Amount of Children' invalid! (must be an integer)\n";
         	}
         }
+        */
+
     	// Birthday handler
         if (dateOfBirthTextField.getText() == null || dateOfBirthTextField.getText().length() == 0) {
             errorMessage += "No valid birthday!\n";
@@ -305,9 +312,8 @@ public class PersonEditViewController {
     @FXML
     private void handleOpenParentUpdateScene() {
         // Change color and hold until release (make a release method)
-        // Open up a new scene.
-        System.out.println("this will work");
-        mainApp.showEditParentChildOverview();
+        // Open up a new scene. (I also want it to transfer the information of who is currently clicked
+        mainApp.showEditParentChildOverview(this.person);
 
     }
 }

@@ -144,7 +144,7 @@ public class MainApp extends Application {
 	}
 
 	// Shows the person overview inside the root layout.
-	public void showEditParentChildOverview() {
+	public void showEditParentChildOverview(Person person) {
 		try {
 			// Load person overview.
 			FXMLLoader loader = new FXMLLoader();
@@ -157,7 +157,7 @@ public class MainApp extends Application {
 			// Give the controller access to the MainApp.
 			ParentsChildrenUpdateSceneController controller = loader.getController();
 			//System.out.println(controller); // returns view.OverviewController@70cf0b45
-			controller.setMainApp(this);
+			controller.setMainApp(this, person);
 
 		} catch (IOException e) {
 			e.printStackTrace();

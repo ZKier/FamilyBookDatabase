@@ -1,6 +1,8 @@
 package view;
 
 import databaseController.MainApp;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import model.Person;
@@ -20,6 +22,8 @@ public class ParentsChildrenUpdateSceneController {
     private TableColumn<Person, String> currentFirstNameColumn;
     @FXML
     private TableColumn<Person, String> currentLastNameColumn;
+
+    Person person;
 
     // Reference to the main application.
     private MainApp mainApp;
@@ -59,17 +63,47 @@ public class ParentsChildrenUpdateSceneController {
     // Considering adding an "Edit..." button
     // Handle "OK"
     // Handle "Cancel"
+    @FXML
     private void handleCancel() {
-
+        mainApp.showPersonEditOverviewScene(person);
     }
 
     // Allows the scene to grab the main application.
-    public void setMainApp(@SuppressWarnings("exports") MainApp mainApp) {
+    public void setMainApp(@SuppressWarnings("exports") MainApp mainApp, Person person) {
         this.mainApp = mainApp;
+        setPerson(person);
+        // Add observable list data for parents to the table
+        possibleParentsOrChildrenTable.setItems(getNonParentsData());
+        currentParentsOrChildrenTable.setItems(FXCollections.observableArrayList(person.getParentsList()));
 
-        // Add observable list data to the table
-        possibleParentsOrChildrenTable.setItems(mainApp.getPersonData());
+        // Add observable list data for children to the table
+        //possibleParentsOrChildrenTable.setItems(getNonChildrenData());
+        //currentParentsOrChildrenTable.setItems(FXCollections.observableArrayList(person.getChildrenList()));
     }
 
     // I might want a helper method to see if there were any changes that needed to be saved
+    // Helper method to return a list of non-parents.
+    public ObservableList<Person> getNonParentsData() {
+
+        ObservableList<Person> allPeople = FXCollections.observableArrayList();
+        allPeople.addAll(mainApp.getPersonData());
+        ObservableList<Person> parentsList = FXCollections.observableArrayList(person.getParentsList());
+        allPeople.removeAll(parentsList);
+        allPeople.remove(this.person);
+        return allPeople;
+    }
+    // Helper method to determine who isn't already a child.
+    public ObservableList<Person> getNonChildrenData() {
+        ObservableList<Person> allPeople = FXCollections.observableArrayList();
+        allPeople.addAll(mainApp.getPersonData());
+        ObservableList<Person> childrenList = FXCollections.observableArrayList(person.getChildrenList());
+        allPeople.removeAll(childrenList);
+        allPeople.remove(this.person);
+        return allPeople;
+    }
+
+    // Set Person to determine who is the person being edited.
+    public void setPerson(Person person) {
+        this.person = person;
+    }
 }
