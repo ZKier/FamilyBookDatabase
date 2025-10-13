@@ -99,14 +99,12 @@ public class Person {
 		return lastName;
 	}
 	
-	public int getParentsCount() {
-		return parents.get();
-	}
+	public int getParentsCount() { return parentsList.size(); }
 
 	public List<Person> getParentsList() { return parentsList; }
 	
 	public int getChildrenCount() {
-		return children.get();
+		return childrenList.size();
 	}
 
 	public List<Person> getChildrenList() { return childrenList; }
@@ -138,7 +136,7 @@ public class Person {
 			String middleNameInitials1 = getInitals(middleName1);
 			String lastName1 = person.getLastName();
 
-			firstMiddleLastName = firstName1 + middleNameInitials1 + lastName1;
+			firstMiddleLastName = firstName1 + " " + middleNameInitials1 + lastName1;
 			firstMiddleLastNameList.append(firstMiddleLastName + ", ");
 		}
 		return firstMiddleLastNameList.toString();
@@ -155,7 +153,7 @@ public class Person {
 			String middleNameInitials1 = getInitals(middleName1);
 			String lastName1 = person.getLastName();
 
-			firstMiddleLastName = firstName1 + middleNameInitials1 + lastName1;
+			firstMiddleLastName = firstName1 + " " + middleNameInitials1 + lastName1;
 			firstMiddleLastNameList.append(firstMiddleLastName + ", ");
 		}
 		return firstMiddleLastNameList.toString();

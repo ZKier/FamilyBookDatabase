@@ -43,7 +43,7 @@ public class ParentsChildrenUpdateSceneController {
         possibleFirstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
         possibleLastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
 
-        // Initialize the possible people table with the two columns.
+        // Initialize the current people table with the two columns.
         currentFirstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
         currentLastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
 
@@ -55,6 +55,18 @@ public class ParentsChildrenUpdateSceneController {
     // Populate the first table with whichever (parents or children) have not been added.
     // Populate the second table with whichever (parents or children) already exist in the parents or children list.
     // Handle "Add >>>"
+    @FXML
+    private void handleAdd() {
+        Person newPerson = possibleParentsOrChildrenTable.getSelectionModel().getSelectedItem();
+
+        // Add and update the parent list
+        person.addParent(newPerson);
+        System.out.println(person.getParentsCount());
+        // Should update the 'parents' data.
+        possibleParentsOrChildrenTable.setItems(getNonParentsData());
+        currentParentsOrChildrenTable.setItems(FXCollections.observableArrayList(person.getParentsList()));
+
+    }
     // Handle "<<< Remove"
 
     // Handle "New...", I want this to continue to a new scene but remember that there was this scene to go back to as a previous scene

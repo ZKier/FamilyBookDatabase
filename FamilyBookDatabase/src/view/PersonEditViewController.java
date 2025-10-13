@@ -108,8 +108,11 @@ public class PersonEditViewController {
 
         if (person.getParentsCount() == 0) {
             parentsNamesLabel.setText("No available parents.");
+            System.out.println("The wrong code ran");
+            System.out.println(person.getParentsCount());
         } else {
             parentsNamesLabel.setText(person.getFirstMiddleLastNameOfParents());
+            System.out.println("The code is having an odd error");
         }
 
         if (person.getChildrenCount() == 0) {
