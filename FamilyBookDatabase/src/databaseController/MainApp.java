@@ -52,7 +52,11 @@ public class MainApp extends Application {
 		return personData;
 	}
 
-    @Override
+	public void setPersonData(ObservableList<Person> personData) {
+		this.personData = personData;
+	}
+
+	@Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Family Book Database");

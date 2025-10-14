@@ -73,6 +73,16 @@ public class Person {
 		this.dateOfBirth = new SimpleObjectProperty<LocalDate>(LocalDate.of(year, month, day));
 		this.biography = new SimpleStringProperty(biography);
 	}
+
+	public Person(String firstName, String middleName, String lastName, int month, int day, int year, String biography) {
+		this.firstName = new SimpleStringProperty(firstName);
+		this.middleName = new SimpleStringProperty(middleName);
+		this.lastName = new SimpleStringProperty(lastName);
+		this.parents = new SimpleIntegerProperty(0);
+		this.children = new SimpleIntegerProperty(0);
+		this.dateOfBirth = new SimpleObjectProperty<LocalDate>(LocalDate.of(year, month, day));
+		this.biography = new SimpleStringProperty(biography);
+	}
 	
 	// Get Methods
 	public String getFirstName() {
@@ -187,11 +197,21 @@ public class Person {
 	public void setParents(int parents) {
 		this.parents.set(parents);
 	}
+
+	public void setParentsList(List<Person> parentsList) {
+		this.parentsList.clear();
+		this.parentsList.addAll(parentsList);
+	}
 	
 	public void setChildren(int children) {
 		this.children.set(children);
 	}
-	
+
+	public void setChildrenList(List<Person> childrenList) {
+		this.childrenList.clear();
+		this.childrenList.addAll(childrenList);
+	}
+
 	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth.set(dateOfBirth);
 	}
@@ -210,6 +230,20 @@ public class Person {
 		if (!childrenList.contains(child)) {
 			childrenList.add(child);
 			child.addParent(this); // keep relationship consistent
+		}
+	}
+
+	public void removeParent(Person parent) {
+		if (parentsList.contains(parent)) {
+			parentsList.remove(parent);
+			parent.removeChild(this); // keep relationship consistent
+		}
+	}
+
+	public void removeChild(Person child) {
+		if (childrenList.contains(child)) {
+			childrenList.remove(child);
+			child.removeParent(this); // keep relationship consistent
 		}
 	}
 	//toString?

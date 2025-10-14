@@ -24,9 +24,12 @@ public class ParentsChildrenUpdateSceneController {
     private TableColumn<Person, String> currentLastNameColumn;
 
     Person person;
+    // To update the main person, 'person'. I think I have to update every person in this app.
+    Person tempPerson;
 
     // Reference to the main application.
     private MainApp mainApp;
+    private ObservableList<Person> tempPersonData = FXCollections.observableArrayList();
 
     /** The constructor.
      The constructor is called before the initialize() method.
@@ -59,9 +62,14 @@ public class ParentsChildrenUpdateSceneController {
     private void handleAdd() {
         Person newPerson = possibleParentsOrChildrenTable.getSelectionModel().getSelectedItem();
 
-        // Add and update the parent list
+        // Add and update the parent list (I DON'T WANT THIS TO RUN FULLY UNTIL 'OK' IS PUSHED)
+        // issue: the temp peron is automatically added as a child to the person who is being set as a parent. I don't want that.
+        // maybe i can store each change in some way? Is there a simpler way?
+        // maybe i should do a save before beginning to edit and open that save on cancel?
+
+        // I definitely want to copy the personData and reinstate it if cancel is pushed.
         person.addParent(newPerson);
-        System.out.println(person.getParentsCount());
+        //System.out.println(person.getParentsCount());
         // Should update the 'parents' data.
         possibleParentsOrChildrenTable.setItems(getNonParentsData());
         currentParentsOrChildrenTable.setItems(FXCollections.observableArrayList(person.getParentsList()));
@@ -77,6 +85,8 @@ public class ParentsChildrenUpdateSceneController {
     // Handle "Cancel"
     @FXML
     private void handleCancel() {
+        mainApp.setPersonData(tempPersonData);
+        // I need it to cancel what ever change was made. Maybe i can make a temp person and update the temp person
         mainApp.showPersonEditOverviewScene(person);
     }
 
@@ -84,6 +94,8 @@ public class ParentsChildrenUpdateSceneController {
     public void setMainApp(@SuppressWarnings("exports") MainApp mainApp, Person person) {
         this.mainApp = mainApp;
         setPerson(person);
+        //setTempPerson();
+        setTempPersonData();
         // Add observable list data for parents to the table
         possibleParentsOrChildrenTable.setItems(getNonParentsData());
         currentParentsOrChildrenTable.setItems(FXCollections.observableArrayList(person.getParentsList()));
@@ -117,5 +129,24 @@ public class ParentsChildrenUpdateSceneController {
     // Set Person to determine who is the person being edited.
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    // I need to set the tempPerson on Init as well.
+    public void setTempPerson() {
+        Person thisPerson = this.person;
+        String firstName = thisPerson.getFirstName();
+        String middleName = thisPerson.getMiddleName();
+        String lastName = thisPerson.getLastName();
+        int month = thisPerson.getDateOfBirth().getMonthValue();
+        int date = thisPerson.getDateOfBirth().getDayOfMonth();
+        int year = thisPerson.getDateOfBirth().getYear();
+        String biography = thisPerson.getBiography();
+        this.tempPerson = new Person(firstName, middleName, lastName, month, date, year, biography);
+        this.tempPerson.setChildrenList(thisPerson.getChildrenList());
+        this.tempPerson.setParentsList(thisPerson.getParentsList());
+    }
+
+    private void setTempPersonData() {
+        this.tempPersonData = FXCollections.observableArrayList(mainApp.getPersonData());
     }
 }
