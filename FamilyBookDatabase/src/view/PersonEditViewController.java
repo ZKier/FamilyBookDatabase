@@ -312,7 +312,15 @@ public class PersonEditViewController {
     private void handleOpenParentUpdateScene() {
         // Change color and hold until release (make a release method)
         // Open up a new scene. (I also want it to transfer the information of who is currently clicked
-        mainApp.showEditParentChildOverview(this.person);
+        mainApp.showEditParentChildOverview(this.person, "PARENT");
+
+    }
+
+    @FXML
+    private void handleOpenChildUpdateScene() {
+        // Change color and hold until release (make a release method)
+        // Open up a new scene. (I also want it to transfer the information of who is currently clicked
+        mainApp.showEditParentChildOverview(this.person, "CHILD");
 
     }
 }

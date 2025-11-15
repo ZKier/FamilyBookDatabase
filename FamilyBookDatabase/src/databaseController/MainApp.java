@@ -148,7 +148,7 @@ public class MainApp extends Application {
 	}
 
 	// Shows the person overview inside the root layout.
-	public void showEditParentChildOverview(Person person) {
+	public void showEditParentChildOverview(Person person, String parentOrChild) {
 		try {
 			// Load person overview.
 			FXMLLoader loader = new FXMLLoader();
@@ -161,7 +161,7 @@ public class MainApp extends Application {
 			// Give the controller access to the MainApp.
 			ParentsChildrenUpdateSceneController controller = loader.getController();
 			//System.out.println(controller); // returns view.OverviewController@70cf0b45
-			controller.setMainApp(this, person);
+			controller.setMainApp(this, person, parentOrChild);
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -169,7 +169,8 @@ public class MainApp extends Application {
 	}
 
     // Allows the initialization of the edit view (New Tab) I want to change this
-    public boolean showPersonEditOverview(Person person) {
+    /*
+	public boolean showPersonEditOverview(Person person) {
         try {
             // Load the FXML file and create a new stage for the pop-up dialog.
             FXMLLoader loader = new FXMLLoader();
@@ -202,7 +203,8 @@ public class MainApp extends Application {
             return false;
         }
     }
-    
+    */
+
 	/**
 	 * Returns the main stage.
 	 * @return

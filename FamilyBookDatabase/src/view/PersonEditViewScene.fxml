@@ -76,7 +76,7 @@
                                              <cursor>
                                                 <Cursor fx:constant="HAND" />
                                              </cursor></Label>
-                                          <Label fx:id="updateChildrenLabel" text="+ Add/Remove Child..." textFill="WHITE" underline="true" wrapText="true" GridPane.rowIndex="7">
+                                          <Label fx:id="updateChildrenLabel" onMouseClicked="#handleOpenChildUpdateScene" text="+ Add/Remove Child..." textFill="WHITE" underline="true" wrapText="true" GridPane.rowIndex="7">
                                              <cursor>
                                                 <Cursor fx:constant="HAND" />
                                              </cursor></Label>

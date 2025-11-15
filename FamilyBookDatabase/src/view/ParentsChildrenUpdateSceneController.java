@@ -37,6 +37,8 @@ public class ParentsChildrenUpdateSceneController {
     private MainApp mainApp;
     private ObservableList<Person> tempPersonData = FXCollections.observableArrayList();
 
+    private String parentOrChild;
+
     /** The constructor.
      The constructor is called before the initialize() method.
      */
@@ -66,56 +68,29 @@ public class ParentsChildrenUpdateSceneController {
     // Handle "Add >>>"
     @FXML
     private void handleAdd() {
-        Person newPerson = possibleParentsOrChildrenTable.getSelectionModel().getSelectedItem();
-
-        // Keeps the Remove Data and Add Data Lists Consistent
-        if (personRemoveData.getParentsList().contains(newPerson)) {
-            personRemoveData.removeParent(newPerson);
-        } else if (!person.getParentsList().contains(newPerson)) {
-            personAddData.addParent(newPerson);
+        if (parentOrChild.equals("PARENT")) {
+            // Handles parent add
+            handleParentsAdd();
+        } else if (parentOrChild.equals("CHILD")) {
+            // Handles children add
+            handleChildrenAdd();
         } else {
-            System.out.println("Error: Parent Not Found");
+            System.out.println("ERROR DETERMINING PARENT OR CHILD");
         }
 
-        // Adds the selected person to the list of Parents to add.
-        personAddData.addParent(newPerson);
-
-
-        // Removes the temporary people in the personCopy list
-        ObservableList<Person> nonParentsDataList = FXCollections.observableArrayList(getNonParentsData());
-        ObservableList<Person> tempParentsList = FXCollections.observableArrayList(personAddData.getParentsList());
-        nonParentsDataList.removeAll(tempParentsList);
-        nonParentsDataList.addAll(personRemoveData.getParentsList());
-
-        possibleParentsOrChildrenTable.setItems(nonParentsDataList);
-
-        // Adds the current parents to the 'current' table (Including the temporarily stored ones.)
-        tempParentsList.addAll(person.getParentsList());
-        currentParentsOrChildrenTable.setItems(tempParentsList);
     }
     // Handle "<<< Remove"
     @FXML
     private void handleRemove() {
-        Person newPerson = currentParentsOrChildrenTable.getSelectionModel().getSelectedItem();
-        // I want to remove it from the current temp list or add it to a removal list
-        // Keeps the Remove Data and Add Data Lists Consistent
-        if (personAddData.getParentsList().contains(newPerson)) {
-            personAddData.removeParent(newPerson);
-        } else if (person.getParentsList().contains(newPerson)) { // Side note: I have to make it so that if i do a removal and want to later add i can handle that as well.
-            personRemoveData.addParent(newPerson);
+        if (parentOrChild.equals("PARENT")) {
+            // Handles parents remove
+            handleParentsRemove();
+        } else if (parentOrChild.equals("CHILD")) {
+            // Handles children remove
+            handleChildrenRemove();
         } else {
-            System.out.println("Error: Parent Not Found");
+            System.out.println("ERROR DETERMINING PARENT OR CHILD");
         }
-
-        // Removes the temporary people in the personCopy list
-        ObservableList<Person> tempParentsList = FXCollections.observableArrayList(personAddData.getParentsList());
-        ObservableList<Person> nonParentsDataList = FXCollections.observableArrayList(getNonParentsData());
-        nonParentsDataList.removeAll(tempParentsList);
-        nonParentsDataList.addAll(personRemoveData.getParentsList());
-
-        // Updates Each Table
-        possibleParentsOrChildrenTable.setItems(nonParentsDataList);
-        currentParentsOrChildrenTable.setItems(tempParentsList);
     }
 
     // Handle "New...", I want this to continue to a new scene but remember that there was this scene to go back to as a previous scene
@@ -125,7 +100,150 @@ public class ParentsChildrenUpdateSceneController {
     // Handle "OK"
     @FXML
     private void handleOK() {
-        // On ok i want all the added parents to be added and all the removed parents to be removed
+        if (parentOrChild.equals("PARENT")) {
+            // Handles parents OK
+            handleParentsOK();
+        } else if (parentOrChild.equals("CHILD")) {
+            // Handles children OK
+            handleChildrenOK();
+        } else {
+            System.out.println("ERROR DETERMINING PARENT OR CHILD");
+        }
+    }
+    // Handle "Cancel"
+    @FXML
+    private void handleCancel() {
+        // Doesn't finalize any changes, just returns to the previous screen.
+        mainApp.showPersonEditOverviewScene(person);
+    }
+
+    // Add method for parents
+    private void handleParentsAdd() {
+        if (possibleParentsOrChildrenTable.getSelectionModel().getSelectedItem() != null) {
+            Person newPerson = possibleParentsOrChildrenTable.getSelectionModel().getSelectedItem();
+
+            // Keeps the Remove Data and Add Data Lists Consistent
+            if (personRemoveData.getParentsList().contains(newPerson)) {
+                personRemoveData.removeParent(newPerson);
+            } else if (!person.getParentsList().contains(newPerson)) {
+                personAddData.addParent(newPerson);
+            } else {
+                System.out.println("Error: Parent Not Found");
+            }
+
+            // Removes the temporary people in the personCopy list
+            ObservableList<Person> nonParentsDataList = FXCollections.observableArrayList(getNonParentsData());
+            ObservableList<Person> tempParentsList = FXCollections.observableArrayList(personAddData.getParentsList());
+
+            //tempParentsList.addAll(person.getParentsList());
+            tempParentsList.addAll(person.getParentsList());
+            tempParentsList.removeAll(personRemoveData.getParentsList());
+
+            nonParentsDataList.removeAll(tempParentsList);
+            nonParentsDataList.addAll(personRemoveData.getParentsList());
+
+            possibleParentsOrChildrenTable.setItems(nonParentsDataList);
+            // Adds the current parents to the 'current' table (Including the temporarily stored ones.)
+            currentParentsOrChildrenTable.setItems(tempParentsList);
+        }
+    }
+
+    // Add method for children
+    private void handleChildrenAdd() {
+        if (possibleParentsOrChildrenTable.getSelectionModel().getSelectedItem() != null) {
+            Person newPerson = possibleParentsOrChildrenTable.getSelectionModel().getSelectedItem();
+
+            // Keeps the Remove Data and Add Data Lists Consistent
+            if (personRemoveData.getChildrenList().contains(newPerson)) {
+                personRemoveData.removeChild(newPerson);
+            } else if (!person.getChildrenList().contains(newPerson)) {
+                personAddData.addChild(newPerson);
+            } else {
+                System.out.println("Error: Child Not Found");
+            }
+
+            // Removes the temporary people in the personCopy list
+            ObservableList<Person> nonChildrenDataList = FXCollections.observableArrayList(getNonChildrenData());
+            ObservableList<Person> tempChildrenList = FXCollections.observableArrayList(personAddData.getChildrenList());
+
+            //tempParentsList.addAll(person.getParentsList());
+            tempChildrenList.addAll(person.getChildrenList());
+            tempChildrenList.removeAll(personRemoveData.getChildrenList());
+
+            nonChildrenDataList.removeAll(tempChildrenList);
+            nonChildrenDataList.addAll(personRemoveData.getChildrenList());
+
+            possibleParentsOrChildrenTable.setItems(nonChildrenDataList);
+            // Adds the current parents to the 'current' table (Including the temporarily stored ones.)
+            currentParentsOrChildrenTable.setItems(tempChildrenList);
+        }
+    }
+
+    // Remove method for parents
+    private void handleParentsRemove() {
+        if (currentParentsOrChildrenTable.getSelectionModel().getSelectedItem() != null) {
+            Person newPerson = currentParentsOrChildrenTable.getSelectionModel().getSelectedItem();
+            // I want to remove it from the current temp list or add it to a removal list
+            // Keeps the Remove Data and Add Data Lists Consistent
+            if (personAddData.getParentsList().contains(newPerson)) {
+                personAddData.removeParent(newPerson);
+                //System.out.println("Person removed from add data");
+            } else if (person.getParentsList().contains(newPerson)) {
+                personRemoveData.addParent(newPerson);
+            } else {
+                System.out.println("Error: Parent Not Found");
+            }
+
+            // Removes the temporary people in the personCopy list
+            ObservableList<Person> tempParentsList = FXCollections.observableArrayList(personAddData.getParentsList());
+            // This is for previously saved parents
+            tempParentsList.addAll(person.getParentsList());
+            tempParentsList.removeAll(personRemoveData.getParentsList());
+
+            ObservableList<Person> nonParentsDataList = FXCollections.observableArrayList(getNonParentsData());
+            nonParentsDataList.removeAll(tempParentsList);
+            nonParentsDataList.addAll(personRemoveData.getParentsList());
+
+            // Updates Each Table
+            possibleParentsOrChildrenTable.setItems(nonParentsDataList);
+            currentParentsOrChildrenTable.setItems(tempParentsList);
+        }
+    }
+
+    // Remove method for children
+    private void handleChildrenRemove() {
+        if (currentParentsOrChildrenTable.getSelectionModel().getSelectedItem() != null) {
+            Person newPerson = currentParentsOrChildrenTable.getSelectionModel().getSelectedItem();
+            // I want to remove it from the current temp list or add it to a removal list
+            // Keeps the Remove Data and Add Data Lists Consistent
+            if (personAddData.getChildrenList().contains(newPerson)) {
+                personAddData.removeChild(newPerson);
+                //System.out.println("Person removed from add data");
+            } else if (person.getChildrenList().contains(newPerson)) {
+                personRemoveData.addChild(newPerson);
+            } else {
+                System.out.println("Error: Child Not Found");
+            }
+
+            // Removes the temporary people in the personCopy list
+            ObservableList<Person> tempChildrenList = FXCollections.observableArrayList(personAddData.getChildrenList());
+            // This is for previously saved parents
+            tempChildrenList.addAll(person.getChildrenList());
+            tempChildrenList.removeAll(personRemoveData.getChildrenList());
+
+            ObservableList<Person> nonChildrenDataList = FXCollections.observableArrayList(getNonChildrenData());
+            nonChildrenDataList.removeAll(tempChildrenList);
+            nonChildrenDataList.addAll(personRemoveData.getChildrenList());
+
+            // Updates Each Table
+            possibleParentsOrChildrenTable.setItems(nonChildrenDataList);
+            currentParentsOrChildrenTable.setItems(tempChildrenList);
+        }
+    }
+
+    // OK method for parents
+    private void handleParentsOK() {
+        // On OK I want all the added parents to be added and all the removed parents to be removed
         ObservableList<Person> addData = FXCollections.observableArrayList(personAddData.getParentsList());
         ObservableList<Person> removeData = FXCollections.observableArrayList(personRemoveData.getParentsList());
 
@@ -140,23 +258,43 @@ public class ParentsChildrenUpdateSceneController {
         }
         mainApp.showPersonEditOverviewScene(person);
     }
-    // Handle "Cancel"
-    @FXML
-    private void handleCancel() {
-        // Doesn't finalize any changes, just returns to the previous screen.
-        mainApp.showPersonEditOverviewScene(person);
 
+    // OK method for children
+    private void handleChildrenOK() {
+        // On OK I want all the added children to be added and all the removed children to be removed
+        ObservableList<Person> addData = FXCollections.observableArrayList(personAddData.getChildrenList());
+        ObservableList<Person> removeData = FXCollections.observableArrayList(personRemoveData.getChildrenList());
+
+        Iterator<Person> addIterator = addData.iterator();
+        while (addIterator.hasNext()) {
+            person.addChild(addIterator.next());
+        }
+
+        Iterator<Person> removeIterator = removeData.iterator();
+        while (removeIterator.hasNext()) {
+            person.removeChild(removeIterator.next());
+        }
+        mainApp.showPersonEditOverviewScene(person);
     }
 
     // Allows the scene to grab the main application.
-    public void setMainApp(@SuppressWarnings("exports") MainApp mainApp, Person person) {
+    public void setMainApp(@SuppressWarnings("exports") MainApp mainApp, Person person, String parentOrChild) {
         this.mainApp = mainApp;
         setPerson(person);
+        this.parentOrChild = parentOrChild;
         // Supposed to run and create a new database so that the cancel can return to this upon usage.
         setTempPersonData();
         // Add observable list data for parents to the table
-        possibleParentsOrChildrenTable.setItems(getNonParentsData());
-        currentParentsOrChildrenTable.setItems(FXCollections.observableArrayList(person.getParentsList()));
+        if (parentOrChild.equals("PARENT")) {
+            possibleParentsOrChildrenTable.setItems(getNonParentsData());
+            currentParentsOrChildrenTable.setItems(FXCollections.observableArrayList(person.getParentsList()));
+        } else if (parentOrChild.equals("CHILD")) {
+            possibleParentsOrChildrenTable.setItems(getNonChildrenData());
+            currentParentsOrChildrenTable.setItems(FXCollections.observableArrayList(person.getChildrenList()));
+        } else {
+            System.out.println("Error: Current Selection of Parent or Child Undefined.");
+        }
+
 
         // Add observable list data for children to the table
         //possibleParentsOrChildrenTable.setItems(getNonChildrenData());
