@@ -13,16 +13,22 @@ class PersonTest {
 		testGetParents();
 		testGetChildren();
 		testGetDateOfBirth();
+		testGetDateOfBirthDay();
 		//testGetFormattedDateOfBirth();
 		testGetBiography();
 		
 		testSetFirstName();
-		testSetmiddleName();
+		testSetMiddleName();
 		testSetLastName();
 		testSetParents();
 		testSetChildren();
 		testSetDateOfBirth();
 		testSetBiography();
+
+		testPersonEquals();
+		testPersonEqualsWithParent();
+		testPersonEqualsWithChild();
+		testPersonNotEqualWithChild();
 	}
 
 	
@@ -82,6 +88,13 @@ class PersonTest {
 		System.out.println("testGetDateOfBirth");
 		Person person1 = new Person("Kacey", "Monster");
 		System.out.println("Expected: 1999-02-21");
+		System.out.printf("Outcome: %s\n\n", person1.getDateOfBirth().toString());
+		//System.out.println(person1.getDateOfBirth().getMonthValue());
+	}
+	static void testGetDateOfBirthDay() {
+		System.out.println("testGetDateOfBirthDay");
+		Person person1 = new Person("Kacey", "Monster");
+		System.out.println("Expected: 21");
 		System.out.printf("Outcome: %s\n\n", person1.getDateOfBirth().toString().substring(8, 10));
 		//System.out.println(person1.getDateOfBirth().getMonthValue());
 	}
@@ -95,27 +108,39 @@ class PersonTest {
 */
 	static void testGetBiography() {
 		System.out.println("testGetBiography");
-		Person person1 = new Person("Kacey", "Monster");
-		//person1.setBiography("Monster High Prom Queen");
-		System.out.println("Expected: ");
+		Person person1 = new Person("Kacey", "Michelle", "Monster", 4, 3, 2001, "Monster High Prom Queen");
+		System.out.println("Expected: Monster High Prom Queen");
 		System.out.printf("Outcome: %s\n\n", person1.getBiography());
 
 	}
 
 	static void testSetFirstName() {
-		System.out.println("Not yet implemented");
+		System.out.println("testSetFirstName");
+		Person person1 = new Person("Kacey", "Michelle", "Monster", 4, 3, 2001, "Monster High Prom Queen");
+		person1.setFirstName("Kelly");
+		System.out.println("Expected: Kelly");
+		System.out.printf("Outcome: %s\n\n", person1.getFirstName());
 	}
 
-	static void testSetmiddleName() {
-		System.out.println("Not yet implemented");
+	static void testSetMiddleName() {
+		System.out.println("testSetMiddleName");
+		Person person1 = new Person("Kacey", "Michelle", "Monster", 4, 3, 2001, "Monster High Prom Queen");
+		person1.setMiddleName("Mikky");
+		System.out.println("Expected: Mikky");
+		System.out.printf("Outcome: %s\n\n", person1.getMiddleName());
 	}
 
 	static void testSetLastName() {
-		System.out.println("Not yet implemented");
+		System.out.println("testSetLastName");
+		Person person1 = new Person("Kacey", "Michelle", "Monster", 4, 3, 2001, "Monster High Prom Queen");
+		person1.setLastName("Screech");
+		System.out.println("Expected: Screech");
+		System.out.printf("Outcome: %s\n\n", person1.getLastName());
 	}
 
 	static void testSetParents() {
 		System.out.println("Not yet implemented");
+		
 	}
 
 	static void testSetChildren() {
@@ -128,11 +153,56 @@ class PersonTest {
 
 	static void testSetBiography() {
 		System.out.println("testSetBiography");
-		Person person1 = new Person("Kacey", "Monster");
+		Person person1 = new Person("Kacey", "Michelle","Monster", 4,26,1999,"lover of animals");
 		person1.setBiography("Monster High Prom Queen");
 		System.out.println("Expected: Monster High Prom Queen");
 		System.out.printf("Outcome: %s\n\n", person1.getBiography());
 
+	}
+
+	static void testPersonEquals() {
+		System.out.println("testPersonEquals");
+		Person person1 = new Person("Kacey", "Michelle","Monster", 4,26,1999,"lover of animals");
+		Person person2 = new Person("Kacey", "Michelle","Monster", 4,26,1999,"lover of animals");
+		System.out.println("Expected: true");
+		System.out.printf("Outcome: %b\n\n", person1.equals(person2));
+		//System.out.println("Person1 = " + person1.getFirstName() + " Person2 = " + person2.getFirstName());
+	}
+
+	static void testPersonEqualsWithParent() {
+		System.out.println("testPersonEqualsWithParent");
+		Person person1 = new Person("Kacey", "Michelle","Monster", 4,26,1999,"lover of animals");
+		Person person2 = new Person("Kacey", "Michelle","Monster", 4,26,1999,"lover of animals");
+		Person parent1 = new Person("Kimmy", "Michelle","Monster", 4,26,1999,"lover of animals");
+		person1.addParent(parent1);
+		person2.addParent(parent1);
+		System.out.println("Expected: true");
+		System.out.printf("Outcome: %b\n\n", person1.equals(person2));
+		//System.out.println("Person1 = " + person1.getFirstName() + " Person2 = " + person2.getFirstName());
+	}
+
+	static void testPersonEqualsWithChild() {
+		System.out.println("testPersonEqualsWithChild");
+		Person person1 = new Person("Kacey", "Michelle", "Monster", 4, 26, 1999, "lover of animals");
+		Person person2 = new Person("Kacey", "Michelle", "Monster", 4, 26, 1999, "lover of animals");
+		Person child1 = new Person("Kimmy", "Michelle", "Monster", 4, 26, 1999, "lover of animals");
+		person1.addParent(child1);
+		person2.addParent(child1);
+		System.out.println("Expected: true");
+		System.out.printf("Outcome: %b\n\n", person1.equals(person2));
+		//System.out.println("Person1 = " + person1.getFirstName() + " Person2 = " + person2.getFirstName());
+	}
+
+	static void testPersonNotEqualWithChild() {
+		System.out.println("testPersonNotEqualWithChild");
+		Person person1 = new Person("Kacey", "Michelle", "Monster", 4, 26, 1999, "lover of animals");
+		Person person2 = new Person("Kacey", "Michelle", "Monster", 4, 26, 1999, "lover of animals");
+		Person child1 = new Person("Kimmy", "Michelle", "Monster", 4, 26, 1999, "lover of animals");
+		person1.addParent(child1);
+		//person2.addParent(child1);
+		System.out.println("Expected: false");
+		System.out.printf("Outcome: %b\n\n", person1.equals(person2));
+		//System.out.println("Person1 = " + person1.getFirstName() + " Person2 = " + person2.getFirstName());
 	}
 
 }

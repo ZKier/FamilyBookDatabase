@@ -3,10 +3,14 @@ package view;
 import databaseController.MainApp;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import model.Person;
 import databaseController.MainApp;
+import model.PersonData;
+
+import java.util.ArrayList;
 
 
 public class ParentsChildrenUpdateSceneController {
@@ -26,7 +30,8 @@ public class ParentsChildrenUpdateSceneController {
     Person person;
     // To update the main person, 'person'. I think I have to update every person in this app.
     Person tempPerson;
-
+    PersonData personAddData =  new PersonData();
+    PersonData personRemoveData =  new PersonData();
     // Reference to the main application.
     private MainApp mainApp;
     private ObservableList<Person> tempPersonData = FXCollections.observableArrayList();
@@ -62,20 +67,52 @@ public class ParentsChildrenUpdateSceneController {
     private void handleAdd() {
         Person newPerson = possibleParentsOrChildrenTable.getSelectionModel().getSelectedItem();
 
-        // Add and update the parent list (I DON'T WANT THIS TO RUN FULLY UNTIL 'OK' IS PUSHED)
-        // issue: the temp peron is automatically added as a child to the person who is being set as a parent. I don't want that.
-        // maybe i can store each change in some way? Is there a simpler way?
-        // maybe i should do a save before beginning to edit and open that save on cancel?
+        // Keeps the Remove Data and Add Data Lists Consistent
+        if (personRemoveData.getParentsList().contains(newPerson)) {
+            personRemoveData.removeParent(newPerson);
+        } else if (!person.getParentsList().contains(newPerson)) {
+            personAddData.addParent(newPerson);
+        } else {
+            System.out.println("Error: Parent Not Found");
+        }
 
-        // I definitely want to copy the personData and reinstate it if cancel is pushed.
-        person.addParent(newPerson);
-        //System.out.println(person.getParentsCount());
+        // Adds the selected person to the list of Parents to add.
+        personAddData.addParent(newPerson);
         // Should update the 'parents' data.
-        possibleParentsOrChildrenTable.setItems(getNonParentsData());
-        currentParentsOrChildrenTable.setItems(FXCollections.observableArrayList(person.getParentsList()));
+        ObservableList<Person> tempParentsList = FXCollections.observableArrayList(personAddData.getParentsList());
+        // Removes the temporary people in the personCopy list
+        ObservableList<Person> nonParentsDataList = FXCollections.observableArrayList(getNonParentsData());
+        nonParentsDataList.removeAll(tempParentsList);
+        nonParentsDataList.addAll(personRemoveData.getParentsList());
 
+        possibleParentsOrChildrenTable.setItems(nonParentsDataList);
+
+        // Adds the current parents to the 'current' table (Including the temporarily stored ones.)
+        tempParentsList.addAll(person.getParentsList());
+        currentParentsOrChildrenTable.setItems(tempParentsList);
     }
     // Handle "<<< Remove"
+    @FXML
+    private void handleRemove() {
+        Person newPerson = currentParentsOrChildrenTable.getSelectionModel().getSelectedItem();
+        // I want to remove it from the current temp list or add it to a removal list
+        // Keeps the Remove Data and Add Data Lists Consistent
+        if (personAddData.getParentsList().contains(newPerson)) {
+            personAddData.removeParent(newPerson);
+        } else if (person.getParentsList().contains(newPerson)) { // Side note: I have to make it so that if i do a removal and want to later add i can handle that as well.
+            personRemoveData.addParent(newPerson);
+        } else {
+            System.out.println("Error: Parent Not Found");
+        }
+
+        ObservableList<Person> tempParentsList = FXCollections.observableArrayList(personAddData.getParentsList());
+        // Removes the temporary people in the personCopy list
+        ObservableList<Person> nonParentsDataList = FXCollections.observableArrayList(getNonParentsData());
+        nonParentsDataList.addAll(personRemoveData.getParentsList());
+
+        possibleParentsOrChildrenTable.setItems(nonParentsDataList);
+        currentParentsOrChildrenTable.setItems(tempParentsList);
+    }
 
     // Handle "New...", I want this to continue to a new scene but remember that there was this scene to go back to as a previous scene
     // Maybe I shouldn't do the "New..." button
@@ -85,16 +122,16 @@ public class ParentsChildrenUpdateSceneController {
     // Handle "Cancel"
     @FXML
     private void handleCancel() {
-        mainApp.setPersonData(tempPersonData);
-        // I need it to cancel what ever change was made. Maybe i can make a temp person and update the temp person
+        // Doesn't finalize any changes, just returns to the previous screen.
         mainApp.showPersonEditOverviewScene(person);
+
     }
 
     // Allows the scene to grab the main application.
     public void setMainApp(@SuppressWarnings("exports") MainApp mainApp, Person person) {
         this.mainApp = mainApp;
         setPerson(person);
-        //setTempPerson();
+        // Supposed to run and create a new database so that the cancel can return to this upon usage.
         setTempPersonData();
         // Add observable list data for parents to the table
         possibleParentsOrChildrenTable.setItems(getNonParentsData());
@@ -148,5 +185,22 @@ public class ParentsChildrenUpdateSceneController {
 
     private void setTempPersonData() {
         this.tempPersonData = FXCollections.observableArrayList(mainApp.getPersonData());
+    }
+
+    private ObservableMap<Integer, Person> createPersonDataMap(ObservableList<Person> personList) {
+        // Create the map object
+        ObservableMap<Integer, Person> myPersonDataObservableMap = FXCollections.observableHashMap();
+        // pull the person data
+        ArrayList<Person> personData = new ArrayList<>(personList);
+        // map it
+        int num = 0;
+        for (Person person : personData) {
+            Integer key = num;
+            myPersonDataObservableMap.put(key, person);
+            num++;
+        }
+        // I need to find the current person selected.
+        // return the map
+        return myPersonDataObservableMap;
     }
 }

@@ -11,9 +11,10 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class Person {
+public class Person implements Comparable<Person> {
 	private final StringProperty firstName;
 	private final StringProperty middleName;
 	private final StringProperty lastName;
@@ -198,6 +199,7 @@ public class Person {
 		this.parents.set(parents);
 	}
 
+	// Might have an error (I don't think this auto updates the children list which it probably should.)
 	public void setParentsList(List<Person> parentsList) {
 		this.parentsList.clear();
 		this.parentsList.addAll(parentsList);
@@ -245,6 +247,48 @@ public class Person {
 			childrenList.remove(child);
 			child.removeParent(this); // keep relationship consistent
 		}
+	}
+
+	@Override
+	public int compareTo(Person other) {
+		int cmp = this.getLastName().compareTo(other.getLastName());
+		if (cmp != 0) return cmp;
+
+		cmp = this.getFirstName().compareTo(other.getFirstName());
+		if (cmp != 0) return cmp;
+
+		return this.getMiddleName().compareTo(other.getMiddleName());
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		// Attempt to cast the object to a person object
+		Person person = (Person) object;
+
+		// Compare all the properties.
+		if ( person != null &&
+				this.getFirstName().equals(person.getFirstName()) &&
+						this.getMiddleName().equals(person.getMiddleName()) &&
+						this.getLastName().equals(person.getLastName()) &&
+						this.getDateOfBirth().equals(person.getDateOfBirth()) &&
+						this.getBiography().equals(person.getBiography()) &&
+						this.getChildrenList().equals(person.getChildrenList()) &&
+						this.getParentsList().equals(person.getParentsList())
+		) {
+			return true;
+		} else {
+			return false;
+		}
+
+		//this.middleName.equals(person.middleName);
+		//this.lastName.equals(person.lastName);
+		//this.parents.equals(person.parents);
+		//this.children.equals(person.children);
+		//this.dateOfBirth.equals(person.dateOfBirth);
+		//this.biography.equals(person.biography);
+
+		//this.parentsList.equals(person.parentsList);
+		//this.childrenList.equals(person.childrenList);
 	}
 	//toString?
 }

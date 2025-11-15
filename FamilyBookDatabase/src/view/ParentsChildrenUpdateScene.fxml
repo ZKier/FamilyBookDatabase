@@ -33,7 +33,7 @@
                      </padding>
                      <children>
                       <Button mnemonicParsing="false" onAction="#handleAdd" prefWidth="135.0" text="Add &gt;&gt;&gt;" />
-                        <Button alignment="TOP_CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="33.0" prefWidth="135.0" text="&lt;&lt;&lt; Remove" />
+                        <Button alignment="TOP_CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleRemove" prefHeight="33.0" prefWidth="135.0" text="&lt;&lt;&lt; Remove" />
                         <Button alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="40.0" layoutY="197.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="135.0" text="New..." />
                         <Button mnemonicParsing="false" prefWidth="135.0" text="OK" />
                         <Button mnemonicParsing="false" onAction="#handleCancel" prefWidth="135.0" text="Cancel" />
