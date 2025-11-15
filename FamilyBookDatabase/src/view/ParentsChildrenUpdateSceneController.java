@@ -78,10 +78,11 @@ public class ParentsChildrenUpdateSceneController {
 
         // Adds the selected person to the list of Parents to add.
         personAddData.addParent(newPerson);
-        // Should update the 'parents' data.
-        ObservableList<Person> tempParentsList = FXCollections.observableArrayList(personAddData.getParentsList());
+
+
         // Removes the temporary people in the personCopy list
         ObservableList<Person> nonParentsDataList = FXCollections.observableArrayList(getNonParentsData());
+        ObservableList<Person> tempParentsList = FXCollections.observableArrayList(personAddData.getParentsList());
         nonParentsDataList.removeAll(tempParentsList);
         nonParentsDataList.addAll(personRemoveData.getParentsList());
 
@@ -105,11 +106,13 @@ public class ParentsChildrenUpdateSceneController {
             System.out.println("Error: Parent Not Found");
         }
 
-        ObservableList<Person> tempParentsList = FXCollections.observableArrayList(personAddData.getParentsList());
         // Removes the temporary people in the personCopy list
+        ObservableList<Person> tempParentsList = FXCollections.observableArrayList(personAddData.getParentsList());
         ObservableList<Person> nonParentsDataList = FXCollections.observableArrayList(getNonParentsData());
+        nonParentsDataList.removeAll(tempParentsList);
         nonParentsDataList.addAll(personRemoveData.getParentsList());
 
+        // Updates Each Table
         possibleParentsOrChildrenTable.setItems(nonParentsDataList);
         currentParentsOrChildrenTable.setItems(tempParentsList);
     }
