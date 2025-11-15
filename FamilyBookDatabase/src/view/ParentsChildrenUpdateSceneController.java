@@ -11,6 +11,7 @@ import databaseController.MainApp;
 import model.PersonData;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 public class ParentsChildrenUpdateSceneController {
@@ -122,6 +123,23 @@ public class ParentsChildrenUpdateSceneController {
 
     // Considering adding an "Edit..." button
     // Handle "OK"
+    @FXML
+    private void handleOK() {
+        // On ok i want all the added parents to be added and all the removed parents to be removed
+        ObservableList<Person> addData = FXCollections.observableArrayList(personAddData.getParentsList());
+        ObservableList<Person> removeData = FXCollections.observableArrayList(personRemoveData.getParentsList());
+
+        Iterator<Person> addIterator = addData.iterator();
+        while (addIterator.hasNext()) {
+            person.addParent(addIterator.next());
+        }
+
+        Iterator<Person> removeIterator = removeData.iterator();
+        while (removeIterator.hasNext()) {
+            person.removeParent(removeIterator.next());
+        }
+        mainApp.showPersonEditOverviewScene(person);
+    }
     // Handle "Cancel"
     @FXML
     private void handleCancel() {
