@@ -56,6 +56,8 @@ public class PersonEditViewController {
     private Stage dialogStage;
     private Person person;
     private boolean okClicked = false;
+    private Runnable onOk;
+    private boolean isNew;
 
 /*
     public void setMainApp(@SuppressWarnings("exports") MainApp mainApp) {
@@ -183,6 +185,10 @@ public class PersonEditViewController {
     public boolean isOkClicked() {
         return okClicked;
     }
+
+    public void setOnOk(Runnable onOk) {
+        this.onOk = onOk;
+    }
     
     /**
      * Sets the info of the edited person to the edited information.
@@ -213,8 +219,25 @@ public class PersonEditViewController {
             person.setBiography(biographyTextArea.getText());
 
             okClicked = true;
+            if (onOk != null) {
+                onOk.run();     // notify whoever set this callback
+            }
+
+            if (isNew) {
+                mainApp.getPersonData().add(person);
+            } else {
+
+            }
+
             mainApp.showPersonOverview();
+            System.out.println("Input valid");
+        } else {
+            System.out.println("Input not valid");
         }
+    }
+
+    public void isNew() {
+        this.isNew = true;
     }
     
     /**

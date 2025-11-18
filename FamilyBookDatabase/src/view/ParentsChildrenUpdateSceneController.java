@@ -114,7 +114,7 @@ public class ParentsChildrenUpdateSceneController {
     @FXML
     private void handleCancel() {
         // Doesn't finalize any changes, just returns to the previous screen.
-        mainApp.showPersonEditOverviewScene(person);
+        mainApp.showPersonEditOverviewScene(person, "CANCEL");
     }
 
     // Add method for parents
@@ -256,7 +256,7 @@ public class ParentsChildrenUpdateSceneController {
         while (removeIterator.hasNext()) {
             person.removeParent(removeIterator.next());
         }
-        mainApp.showPersonEditOverviewScene(person);
+        mainApp.showPersonEditOverviewScene(person, "EMPTY");
     }
 
     // OK method for children
@@ -274,7 +274,7 @@ public class ParentsChildrenUpdateSceneController {
         while (removeIterator.hasNext()) {
             person.removeChild(removeIterator.next());
         }
-        mainApp.showPersonEditOverviewScene(person);
+        mainApp.showPersonEditOverviewScene(person, "EMPTY");
     }
 
     // Allows the scene to grab the main application.

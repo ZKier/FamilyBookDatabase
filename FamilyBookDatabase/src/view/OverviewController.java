@@ -157,10 +157,11 @@ public class OverviewController {
     @FXML
     private void handleNewPerson() {
         Person tempPerson = new Person();
-        boolean okClicked = mainApp.showPersonEditOverviewScene(tempPerson);
-        if (okClicked) {
-            mainApp.getPersonData().add(tempPerson);
-        }
+        mainApp.showPersonEditOverviewScene(tempPerson, "NEW");
+        //if (okClicked) {
+        //    System.out.println("The code for adding a person to the list seems to work");
+        //    mainApp.getPersonData().add(tempPerson);
+        //}
     }
     
     // Called when the user clicks on the edit button.
@@ -168,10 +169,10 @@ public class OverviewController {
     private void handleEditPerson() {
         Person selectedPerson = personTable.getSelectionModel().getSelectedItem();
         if (selectedPerson != null) {
-            boolean okClicked = mainApp.showPersonEditOverviewScene(selectedPerson);
-            if (okClicked) {
-                showPersonDetails(selectedPerson);
-            }
+            mainApp.showPersonEditOverviewScene(selectedPerson, "EDIT");
+            //if (okClicked) {
+            showPersonDetails(selectedPerson);
+            //}
 
         } else {
             // Nothing selected.

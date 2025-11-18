@@ -115,7 +115,7 @@ public class MainApp extends Application {
     }
 
 	// Opens a new scene for a new edit view (no new tab)
-	public boolean showPersonEditOverviewScene(Person person) {
+	public void showPersonEditOverviewScene(Person person, String state) {
 		try {
 			// Load person edit overview scene.
 			FXMLLoader loader = new FXMLLoader();
@@ -135,15 +135,20 @@ public class MainApp extends Application {
 
 			// Shows code for each person but I want their name to show up. :) ##Progressssss
 			//controller.setChildrenNameBox(personData);
-
+			if (state.equals("NEW")) {
+				controller.isNew();
+			}
 			// Show the dialog and wait until the user closes it
 			//dialogStage.showAndWait();
+			//controller.setOnOk(() -> {System.out.println("This prints once I press 'OK'.");});
+			System.out.println("This prints before I press 'OK'.");
 
-			return controller.isOkClicked();
+			// while (!controller.isOkClicked()) {} // I want the command isOkClicked() to be updated before this code finishes
+			//return controller.isOkClicked();
 
 		} catch (IOException e) {
 			e.printStackTrace();
-			return false;
+			//return false;
 		}
 	}
 
