@@ -151,7 +151,8 @@ public class Person implements Comparable<Person>, util.Displayable {
 			String lastName1 = person.getLastName();
 
 			firstMiddleLastName = firstName1 + " " + middleNameInitials1 + lastName1;
-			firstMiddleLastNameList.append(firstMiddleLastName + ", ");
+			firstMiddleLastNameList.append(firstMiddleLastName);
+			if (iterator.hasNext()) {firstMiddleLastNameList.append(", ");}
 		}
 		return firstMiddleLastNameList.toString();
 	}
@@ -168,7 +169,8 @@ public class Person implements Comparable<Person>, util.Displayable {
 			String lastName1 = person.getLastName();
 
 			firstMiddleLastName = firstName1 + " " + middleNameInitials1 + lastName1;
-			firstMiddleLastNameList.append(firstMiddleLastName + ", ");
+			firstMiddleLastNameList.append(firstMiddleLastName);
+			if (iterator.hasNext()) {firstMiddleLastNameList.append(", ");}
 		}
 		return firstMiddleLastNameList.toString();
 	}

@@ -6,9 +6,13 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.control.Label;
+import javafx.scene.layout.*;
 import model.Person;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 // Assuming you have a Graph and Displayable interface/class for your data
 
 public class GraphView {
@@ -24,6 +28,9 @@ public class GraphView {
         // Create the container
         Group root = new Group(); // This container has parents and children
 
+        // Create a list of visited neighbors
+        List<Person> visitedNeighbors = new ArrayList<>();
+
         // Create the object that will add to the container
         //Circle circle = new Circle(0,0,2, Color.RED);
         //root.getChildren().add(circle);
@@ -34,13 +41,28 @@ public class GraphView {
         def DFS(node) {
             mark node as visited
             for each neighbor of node {
-                if neighbot is not visited {
+                if neighbor is not visited {
                     plot neighbor
                 }
             }
         }
          */
         // instead of deleting the name I can add the name to a list and compare to mark a node as visited.
+        // start
+        double x = 0; centralNodePerson.setX(x);
+        double y = 0; centralNodePerson.setY(y);
+        // Create circle object (X-axis, Y-axis, Diameter, Color)
+        Circle circle = new Circle(x,y,4, Color.RED);
+        // Create the Label
+        Label label = new Label(centralNodePerson.getFirstName() + centralNodePerson.getMiddleName() + centralNodePerson.getLastName());
+        // Create a VBox to arrange them vertically
+        VBox vBox = new VBox(10);
+        vBox.getChildren().addAll(circle, label);
+        vBox.setAlignment(javafx.geometry.Pos.CENTER); // Center align the children
+
+        // Add object to container
+        root.getChildren().add(vBox);
+
         Iterator<Person> iterator = personData.iterator();
         // I want to start with the root, pop the mothers, then mother's mothers.
         // Then I want to pop the fathers, and father's father's then children
