@@ -31,6 +31,9 @@ public class MainApp extends Application {
     private BorderPane rootLayout;
     
     private ObservableList<Person> personData = FXCollections.observableArrayList();
+
+	// Should only have 3 usages
+	private Person person;
     
     public MainApp() {
 		/*
@@ -135,16 +138,9 @@ public class MainApp extends Application {
 
 			// Shows code for each person but I want their name to show up. :) ##Progressssss
 			//controller.setChildrenNameBox(personData);
-			if (state.equals("NEW")) {
-				controller.isNew();
-			}
+			if (state.equals("NEW")) { controller.isNew(); }
 			// Show the dialog and wait until the user closes it
 			//dialogStage.showAndWait();
-			//controller.setOnOk(() -> {System.out.println("This prints once I press 'OK'.");});
-			System.out.println("This prints before I press 'OK'.");
-
-			// while (!controller.isOkClicked()) {} // I want the command isOkClicked() to be updated before this code finishes
-			//return controller.isOkClicked();
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -209,6 +205,27 @@ public class MainApp extends Application {
         }
     }
     */
+
+	public void showGraphView() {
+		try {
+			// Load person overview.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(MainApp.class.getResource("/view/GraphViewScene.fxml"));
+			AnchorPane graphViewScene = (AnchorPane) loader.load();
+
+			// Set person overview into the center of root layout.
+			rootLayout.setCenter(graphViewScene);
+
+			// Give the controller access to the MainApp.
+			GraphViewController controller = loader.getController();
+
+			controller.setMainApp(this, person);
+			//System.out.println("This ran");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Returns the main stage.
@@ -406,5 +423,13 @@ public class MainApp extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
 	}
 }

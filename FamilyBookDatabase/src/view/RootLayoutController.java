@@ -97,4 +97,10 @@ public class RootLayoutController {
 	private void statisticsBirthdayStatisticshandler() {
 	  mainApp.showBirthdayStatistics();
 	}
+
+	@FXML
+	private void graphHandler() {
+		mainApp.showGraphView();
+	}
+
 }

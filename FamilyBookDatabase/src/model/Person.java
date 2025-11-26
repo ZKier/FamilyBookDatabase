@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Person implements Comparable<Person> {
+public class Person implements Comparable<Person>, util.Displayable {
 	private final StringProperty firstName;
 	private final StringProperty middleName;
 	private final StringProperty lastName;
@@ -25,6 +25,9 @@ public class Person implements Comparable<Person> {
 
 	private List<Person> parentsList = new ArrayList<>();
 	private List<Person> childrenList = new ArrayList<>();
+
+	private double x;
+	private double y;
 	
 	//Constructor
 	public Person() {
@@ -181,6 +184,14 @@ public class Person implements Comparable<Person> {
 		}
 		return initals.toString();
 	}
+
+	public double getX() {
+		return this.x;
+	}
+
+	public double getY() {
+		return this.y;
+	}
 	
 	//Set Methods
 	public void setFirstName(String firstName) {
@@ -219,6 +230,14 @@ public class Person implements Comparable<Person> {
 	}
 
 	public void setBiography(String biography) { this.biography.set(biography); }
+
+	public void setX(double x) {
+		this.x = x;
+	}
+
+	public void setY(double y) {
+		this.y = y;
+	}
 
 
 	public void addParent(Person parent) {

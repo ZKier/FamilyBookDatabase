@@ -23,6 +23,11 @@
                   <MenuItem mnemonicParsing="false" onAction="#statisticsBirthdayStatisticshandler" text="Show Statistics" />
                </items>
             </Menu>
+            <Menu mnemonicParsing="false" text="Graph">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#graphHandler" text="Show Graph" />
+               </items>
+            </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
               <MenuItem mnemonicParsing="false" text="Delete" />

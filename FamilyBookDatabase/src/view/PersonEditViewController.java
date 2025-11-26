@@ -84,7 +84,8 @@ public class PersonEditViewController {
         lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
         // Listen for selection changes and show the person details when changed.
         personTable.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> setPerson(newValue));
+                (observable, oldValue, newValue) -> {setPerson(newValue);
+                mainApp.setPerson(newValue);});
     }
     
     //Sets the stage of this dialogue
