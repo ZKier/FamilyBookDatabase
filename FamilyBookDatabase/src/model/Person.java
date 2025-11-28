@@ -174,6 +174,15 @@ public class Person implements Comparable<Person>, util.Displayable {
 		}
 		return firstMiddleLastNameList.toString();
 	}
+
+	public String getFirstMiddleInitLastNameOfPerson() {
+		String firstName1 = this.getFirstName();
+		String middleName1 = this.getMiddleName();
+		String middleNameInitials1 = getInitals(middleName1);
+		String lastName1 = this.getLastName();
+
+		return firstName1 + " " + middleNameInitials1 + lastName1;
+	}
 	private String getInitals(String fullName) {
 		String[] names = fullName.trim().split("\\s+"); // split by one or more spaces
 		StringBuilder initals = new StringBuilder();

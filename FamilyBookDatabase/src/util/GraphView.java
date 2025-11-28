@@ -19,6 +19,9 @@ public class GraphView {
     Person centralNodePerson;
     private ObservableList<Person> personData = FXCollections.observableArrayList();
 
+    // Create a list of visited neighbors
+    List<Person> visitedNeighbors = new ArrayList<>();
+
     // Constructor
     public GraphView(Person centralNodePerson, ObservableList<Person> personData) {
         this.centralNodePerson = centralNodePerson;
@@ -27,9 +30,6 @@ public class GraphView {
     public Node plot() {
         // Create the container
         Group root = new Group(); // This container has parents and children
-
-        // Create a list of visited neighbors
-        List<Person> visitedNeighbors = new ArrayList<>();
 
         // Create the object that will add to the container
         //Circle circle = new Circle(0,0,2, Color.RED);
@@ -47,29 +47,65 @@ public class GraphView {
             }
         }
          */
-        // instead of deleting the name I can add the name to a list and compare to mark a node as visited.
         // start
-        double x = 0; centralNodePerson.setX(x);
-        double y = 0; centralNodePerson.setY(y);
-        // Create circle object (X-axis, Y-axis, Diameter, Color)
-        Circle circle = new Circle(x,y,4, Color.RED);
-        // Create the Label
-        Label label = new Label(centralNodePerson.getFirstName() + centralNodePerson.getMiddleName() + centralNodePerson.getLastName());
-        // Create a VBox to arrange them vertically
-        VBox vBox = new VBox(10);
-        vBox.getChildren().addAll(circle, label);
-        vBox.setAlignment(javafx.geometry.Pos.CENTER); // Center align the children
+        double x = 0;   double y = 0;
 
-        // Add object to container
-        root.getChildren().add(vBox);
+        // set the position of the centralNodePerson this could be part of the pos function.
+        root.getChildren().addAll(posAndDisplay(centralNodePerson, x, y));
 
-        Iterator<Person> iterator = personData.iterator();
+        //Iterator<Person> iterator = personData.iterator();
         // I want to start with the root, pop the mothers, then mother's mothers.
         // Then I want to pop the fathers, and father's father's then children
 
         return root;
     }
 
+    // Method to position nodes assisted by CGPT
+    private Node posAndDisplay(Person person, double x, double y) {
+        double H_SPACING = 100;   // horizontal spacing between siblings
+        double V_SPACING = 70;    // vertical spacing between generations
+
+        // Create the container
+        Group root = new Group();
+        person.setX(x);
+        person.setY(y);
+
+        // Render the circle + label
+        Circle circle = new Circle(4, Color.RED);
+        Label label = new Label(person.getFirstMiddleInitLastNameOfPerson());
+
+        VBox vBox = new VBox(5, circle, label);
+        vBox.setAlignment(javafx.geometry.Pos.CENTER);
+
+        // Position the vBox itself
+        vBox.setLayoutX(x);
+        vBox.setLayoutY(y);
+
+        root.getChildren().add(vBox);
+
+        // Mark node visited
+        if (visitedNeighbors.contains(person)) return root;
+        visitedNeighbors.add(person);
+
+        // Spread children horizontally around the parent
+        List<Person> children = person.getChildrenList();
+        int count = children.size();
+
+        // Center children around parent's x-coordinate
+        double startX = x - ( (count - 1) * H_SPACING / 2.0 );
+
+        double childY = y + V_SPACING;
+
+        for (Person child : children) {
+            if (!visitedNeighbors.contains(child)) {
+                Node childNode = posAndDisplay(child, startX, childY);
+                root.getChildren().add(childNode);
+            }
+            startX += H_SPACING;
+        }
+
+        return root;
+    }
     /*
     private Graph<? extends Displayable> graph; // Graph data structure
     private Group group = new Group(); // Container for visual elements
