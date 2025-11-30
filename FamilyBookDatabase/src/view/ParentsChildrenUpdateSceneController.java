@@ -309,15 +309,19 @@ public class ParentsChildrenUpdateSceneController {
         allPeople.addAll(mainApp.getPersonData());
         ObservableList<Person> parentsList = FXCollections.observableArrayList(person.getParentsList());
         allPeople.removeAll(parentsList);
+        ObservableList<Person> childrenList = FXCollections.observableArrayList(person.getChildrenList());
+        allPeople.removeAll(childrenList);
         allPeople.remove(this.person);
         return allPeople;
     }
-    // Helper method to determine who isn't already a child.
+    // Helper method to determine who isn't already a child. (THIS IS JUST A DUPLICATE METHOD TO getNonParentsData())
     public ObservableList<Person> getNonChildrenData() {
         ObservableList<Person> allPeople = FXCollections.observableArrayList();
         allPeople.addAll(mainApp.getPersonData());
         ObservableList<Person> childrenList = FXCollections.observableArrayList(person.getChildrenList());
         allPeople.removeAll(childrenList);
+        ObservableList<Person> parentsList = FXCollections.observableArrayList(person.getParentsList());
+        allPeople.removeAll(parentsList);
         allPeople.remove(this.person);
         return allPeople;
     }
