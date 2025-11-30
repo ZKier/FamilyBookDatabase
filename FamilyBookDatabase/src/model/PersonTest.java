@@ -29,6 +29,7 @@ class PersonTest {
 		testPersonEqualsWithParent();
 		testPersonEqualsWithChild();
 		testPersonNotEqualWithChild();
+
 	}
 
 	
@@ -194,6 +195,18 @@ class PersonTest {
 	}
 
 	static void testPersonNotEqualWithChild() {
+		System.out.println("testPersonNotEqualWithChild");
+		Person person1 = new Person("Kacey", "Michelle", "Monster", 4, 26, 1999, "lover of animals");
+		Person person2 = new Person("Kacey", "Michelle", "Monster", 4, 26, 1999, "lover of animals");
+		Person child1 = new Person("Kimmy", "Michelle", "Monster", 4, 26, 1999, "lover of animals");
+		person1.addParent(child1);
+		//person2.addParent(child1);
+		System.out.println("Expected: false");
+		System.out.printf("Outcome: %b\n\n", person1.equals(person2));
+		//System.out.println("Person1 = " + person1.getFirstName() + " Person2 = " + person2.getFirstName());
+	}
+
+	static void testPersonEqualWithChild() {
 		System.out.println("testPersonNotEqualWithChild");
 		Person person1 = new Person("Kacey", "Michelle", "Monster", 4, 26, 1999, "lover of animals");
 		Person person2 = new Person("Kacey", "Michelle", "Monster", 4, 26, 1999, "lover of animals");

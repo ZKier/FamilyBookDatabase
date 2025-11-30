@@ -14,7 +14,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Person implements Comparable<Person>, util.Displayable {
+public class Person implements Comparable<Person>, util.Displayable { ;
+	private Integer id = null;
 	private final StringProperty firstName;
 	private final StringProperty middleName;
 	private final StringProperty lastName;
@@ -89,6 +90,8 @@ public class Person implements Comparable<Person>, util.Displayable {
 	}
 	
 	// Get Methods
+	public Integer getID() { return id; }
+
 	public String getFirstName() {
 		return firstName.get();
 	}
@@ -205,6 +208,8 @@ public class Person implements Comparable<Person>, util.Displayable {
 	}
 	
 	//Set Methods
+	public void setID(Integer num) { this.id = num; }
+
 	public void setFirstName(String firstName) {
 		this.firstName.set(firstName);
 	}
@@ -297,13 +302,14 @@ public class Person implements Comparable<Person>, util.Displayable {
 
 		// Compare all the properties.
 		if ( person != null &&
+				//this.getID() == person.getID() &&
 				this.getFirstName().equals(person.getFirstName()) &&
 						this.getMiddleName().equals(person.getMiddleName()) &&
 						this.getLastName().equals(person.getLastName()) &&
 						this.getDateOfBirth().equals(person.getDateOfBirth()) &&
-						this.getBiography().equals(person.getBiography()) &&
-						this.getChildrenList().equals(person.getChildrenList()) &&
-						this.getParentsList().equals(person.getParentsList())
+						this.getBiography().equals(person.getBiography()) //&&
+						//this.getChildrenList().equals(person.getChildrenList()) &&
+						//this.getParentsList().equals(person.getParentsList())
 		) {
 			return true;
 		} else {

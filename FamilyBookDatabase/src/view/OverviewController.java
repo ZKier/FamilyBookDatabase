@@ -138,6 +138,7 @@ public class OverviewController {
     @FXML
     private void handleDeletePerson() {
         int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
+        mainApp.getPersonDataMap().remove(personTable.getItems().get(selectedIndex).getID());
         personTable.getItems().remove(selectedIndex);
         if (selectedIndex >= 0) {
             personTable.getItems().remove(selectedIndex);

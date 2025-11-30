@@ -5,8 +5,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.prefs.Preferences;
 
+import javafx.collections.ObservableMap;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,8 +33,9 @@ public class MainApp extends Application {
 
     private Stage primaryStage;
     private BorderPane rootLayout;
-    
-    private ObservableList<Person> personData = FXCollections.observableArrayList();
+
+	private ObservableList<Person> personDataList = FXCollections.observableArrayList();
+    private ObservableMap<Integer, Person> personDataMap = FXCollections.observableHashMap();
 
 	// Should only have 3 usages
 	private Person person;
@@ -52,11 +57,16 @@ public class MainApp extends Application {
     
     // Lists Persons
     public ObservableList<Person> getPersonData() {
-		return personData;
+		return personDataList;
 	}
 
-	public void setPersonData(ObservableList<Person> personData) {
-		this.personData = personData;
+	// Lists Persons
+	public ObservableMap<Integer, Person> getPersonDataMap() {
+		return personDataMap;
+	}
+
+	public void setPersonData(ObservableMap<Integer, Person> personData) {
+		this.personDataMap = personData;
 	}
 
 	@Override
@@ -288,11 +298,10 @@ public class MainApp extends Application {
 	 */
 	public void savePersonDataToFile(File file) {
 		try {
-			// Pull the main list
-			java.util.Iterator<Person> iterator = personData.iterator();
+			// Pull the main list from the map to utilize the (key, value) pairing
 			JSONArray jsonArray = new JSONArray();
-			while (iterator.hasNext()) {
-				jsonArray.put(personToJSON(iterator.next()));
+			for (Integer key : this.personDataMap.keySet()) {
+				jsonArray.put(personToJSON(this.personDataMap.get(key)));
 			}
 			
 			// Wrap JSONarray so that the person data can be pulled directly
@@ -321,15 +330,35 @@ public class MainApp extends Application {
 	public JSONObject personToJSON(Person person) {
 		//Person(String firstName, String middleName, String lastName, int parents, int children, int month, int day, int year)
 		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("id", person.getID());
 		jsonObject.put("firstName", person.getFirstName());
 		jsonObject.put("middleName", person.getMiddleName());
 		jsonObject.put("lastName", person.getLastName());
-		jsonObject.put("parents", person.getParentsCount());
-		jsonObject.put("children", person.getChildrenCount());
+		jsonObject.put("parents", person.getParentsCount()); // Kinda deprecated
+		jsonObject.put("children", person.getChildrenCount()); // Kinda deprecated
 		jsonObject.put("month", person.getDateOfBirth().toString().substring(5, 7));
 		jsonObject.put("day", person.getDateOfBirth().toString().substring(8, 10));
 		jsonObject.put("year", person.getDateOfBirth().toString().substring(0, 4));
 		jsonObject.put("biography", person.getBiography());
+
+		// Puts all the parents into the person's information
+		JSONArray jsonArrayParents = new JSONArray();
+		for (Person p : person.getParentsList()) {
+			JSONObject id = new JSONObject();
+			id.put("id", p.getID());
+			jsonArrayParents.put(id);
+		}
+		jsonObject.put("parentsList", jsonArrayParents);
+
+		// Puts all the parents into the person's information
+		JSONArray jsonArrayChildren = new JSONArray();
+		for (Person p : person.getChildrenList()) {
+			JSONObject id = new JSONObject();
+			id.put("id", p.getID());
+			jsonArrayChildren.put(id);
+		}
+		jsonObject.put("childrenList", jsonArrayChildren);
+
 		return  jsonObject;
 	}
 	
@@ -337,64 +366,185 @@ public class MainApp extends Application {
 	 *  Loads Person data from the specified file. The current person data will be replaced.
 	 */
 	public void loadPersonDataFromFile(File file) {
-		personData.clear();
+		this.personDataMap.clear();
+		this.personDataList.clear();
 		try {
 			FileReader fileReader = new FileReader(file);
-			
-			// Turn the information into a String
-			String information = "";
-			int data;
-			while ((data = fileReader.read()) != -1) {	
-				information += (char) data;
-			}
-			fileReader.close();
-			//System.out.println(information);
-			
-			// Convert String to JSON array
-			JSONArray myFile = new JSONArray(information);
-			
-			// Convert each JSON array object into an individual object to create a person object
-			for (Object o : myFile) {
-				JSONObject person = (JSONObject) o;
-
-				String firstName = (String) person.get("firstName");
-				//System.out.println(firstName);
-				String middleName = (String) person.get("middleName");
-				//System.out.println(middleName);
-				String lastName = (String) person.get("lastName");
-				//System.out.println(lastName);
-				int parents = (int) person.get("parents");
-				//System.out.println(parents);
-				int children = (int) person.get("children");
-				//System.out.println(children);
-				int month = Integer.parseInt( (String) person.get("month"));
-				//System.out.println(month);
-				int day = Integer.parseInt( (String) person.get("day"));
-				//System.out.println(day);
-				int year = Integer.parseInt((String) person.get("year"));
-				//System.out.println(year);
+			try {
 				try {
-					String biography = (String) person.get("biography");
-					// Add the loaded data to the screen.
-					personData.add(new Person(firstName, middleName, lastName, parents, children, month, day, year, biography));
-				} catch (JSONException e) {
-					//e.printStackTrace();
-					System.out.println("biography missing.");
-					// Add the loaded data to the screen.
-					personData.add(new Person(firstName, middleName, lastName, parents, children, month, day, year));
+					// Turn the information into a String
+					StringBuilder information = new StringBuilder();
+					int data;
+					while ((data = fileReader.read()) != -1) {
+						information.append((char) data);
+					}
+					String result = information.toString();
+
+					try {
+						fileReader.close();
+						//System.out.println(information);
+						try {
+							// Convert String to JSON array
+							JSONArray myFile = new JSONArray(result);
+
+							try {
+								// Convert each JSON array object into an individual object to create a person object
+								for (Object personObject : myFile) { readPerson(personObject); }
+								// Convert the keys of people to parents and children.
+								for (Object personObject : myFile) { readParentsAndChildren(personObject); }
+							} catch (Exception e) {
+								System.out.println("Error reading people, parents, and children.");
+							}
+
+
+							// Save the file path to the registry.
+							setPersonFilePath(file);
+						} catch (Exception e) {
+							System.out.println("Error in file Array, or setting file path");
+						}
+					} catch (Exception e) {
+						System.out.println(e);
+						Alert alert = new Alert(AlertType.ERROR);
+						alert.setTitle("Error");
+						alert.setHeaderText("Could not close file reader");
+						alert.setContentText("Could not load data from file:\n" + file.getPath());
+
+						alert.showAndWait();
+					}
+
+				} catch (Exception e) {
+					System.out.println(e);
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error");
+					alert.setHeaderText("Could not convert file to String");
+					alert.setContentText("Could not load data from file:\n" + file.getPath());
+
+					alert.showAndWait();
 				}
+			} catch (Exception e) {
+				System.out.println(e);
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error");
+				alert.setHeaderText("Could not load data within file");
+				alert.setContentText("Could not load data from file:\n" + file.getPath());
+
+				alert.showAndWait();
 			}
-			
-			// Save the file path to the registry.
-	        setPersonFilePath(file);
-
 		} catch (Exception e) {
-	        Alert alert = new Alert(AlertType.ERROR);
-	        alert.setTitle("Error");
-	        alert.setHeaderText("Could not load data");
-	        alert.setContentText("Could not load data from file:\n" + file.getPath());
+			System.out.println(e);
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("File Error: Could not load file");
+			alert.setContentText("Could not load data from file:\n" + file.getPath());
 
-	        alert.showAndWait();
+			alert.showAndWait();
+		}
+	}
+
+	// Helper method for reading people.
+	private void readPerson(Object personObject) {
+		JSONObject person = (JSONObject) personObject;
+
+		try {
+			String firstName = (String) person.get("firstName");
+			//System.out.println(firstName);
+			String middleName = (String) person.get("middleName");
+			//System.out.println(middleName);
+			String lastName = (String) person.get("lastName");
+			//System.out.println(lastName);
+			int parents = (int) person.get("parents");
+			//System.out.println(parents);
+			int children = (int) person.get("children");
+			//System.out.println(children);
+			int month = Integer.parseInt( (String) person.get("month"));
+			//System.out.println(month);
+			int day = Integer.parseInt( (String) person.get("day"));
+			//System.out.println(day);
+			int year = Integer.parseInt((String) person.get("year"));
+			//System.out.println(year);
+			String biography = "";
+			//System.out.println("biography pre-update:" + biography);
+			try {
+				biography = (String) person.get("biography");
+				//System.out.println("biography post-update:" + biography);
+
+			} catch (JSONException e) {
+				System.out.println("biography missing.");
+			}
+
+			// Create the current person object
+			Person thisPerson = new Person(firstName, middleName, lastName, parents, children, month, day, year, biography);
+
+			try {
+				int id = (int) person.get("id");
+				thisPerson.setID(id);
+			} catch (JSONException e) {
+				System.out.println("ID missing.");
+			}
+
+			// Add the loaded data to the screen if the person doesn't exist in the list already. updates the key value
+			if (!this.personDataMap.containsValue(thisPerson) && thisPerson.getID() == (null)) {
+				Integer maxKey = -1;
+				if (!this.personDataMap.isEmpty()) { maxKey = Collections.max(this.personDataMap.keySet()); }
+				maxKey += 1;
+
+				// Keeps the ID consistent
+				thisPerson.setID(maxKey);
+				this.personDataMap.put(maxKey, thisPerson); // Add to Map
+				personDataList.add(thisPerson); // Add to list
+			} else if (!this.personDataMap.containsValue(thisPerson)) {
+				this.personDataMap.put(thisPerson.getID(), thisPerson); // Add to Map
+				personDataList.add(thisPerson); // Add to list
+			}
+		} catch (JSONException e) {
+			System.out.println("Unable to retrieve all necessary person information");
+		}
+	}
+
+	private void readParentsAndChildren(Object personObject) {
+		try {
+			JSONObject person = (JSONObject) personObject;
+			try {
+				Integer thisPersonKey = (int) person.get("id");
+				Person thisPerson = personDataMap.get(thisPersonKey);
+				try {
+					// Add Parents
+					JSONArray parents = person.getJSONArray("parentsList"); // JSONObject should be converted to a JSONArray
+					for (Object parent : parents) {
+						// gets the object and converts it back to a JSONObject
+						JSONObject parentObject = (JSONObject) parent;
+						Integer thisParentID = (int) parentObject.get("id");  // turns it into an Integer
+						Person thisParent = personDataMap.get(thisParentID); // retrieves the parent from the map
+						// Adds the parent to the list if it's not already there.
+						if (!thisPerson.getParentsList().contains(thisParent)) {
+							thisPerson.addParent(thisParent);
+						}
+					}
+				} catch (JSONException e) {
+					System.out.println("Error loading parents");
+				}
+
+				try {
+					// Add Children
+					JSONArray children = person.getJSONArray("childrenList");
+					for (Object child : children) {
+						// gets the object
+						JSONObject childObject = (JSONObject) child;
+						Integer thisChildID = (int) childObject.get("id"); // turns it into an Integer
+						Person thisChild = personDataMap.get(thisChildID); // retrieves the child from the map
+						// Adds the child to the list if it's not already there.
+						if (!thisPerson.getChildrenList().contains(thisChild)) {
+							thisPerson.addChild(thisChild);
+						}
+					}
+				} catch (JSONException e) {
+					System.out.println("Error loading children");
+				}
+			} catch (JSONException e) {
+				System.out.println("Can't load parents or children, no IDs present");
+			}
+		} catch (JSONException e) {
+			System.out.println("Issue loading personObject for parents and children");
 		}
 	}
 	
@@ -403,7 +553,7 @@ public class MainApp extends Application {
 	 */
 	public void showBirthdayStatistics() {
 		try {
-			// Load the FXML file and create a new stage for the pop up.
+			// Load the FXML file and create a new stage for the pop-up.
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(MainApp.class.getResource("/view/BirthdayStatistics.fxml"));
 			AnchorPane page = (AnchorPane) loader.load();
@@ -416,7 +566,7 @@ public class MainApp extends Application {
 			
 			// Set the persons into the controller.
 			BirthdayStatisticsController controller = loader.getController();
-			controller.setPersonData(personData);
+			controller.setPersonData(personDataMap);
 			
 			dialogStage.show();
 			

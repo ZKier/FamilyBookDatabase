@@ -11,6 +11,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import databaseController.MainApp;
+
+import java.util.Collections;
 import java.util.Iterator;
 
 public class PersonEditViewController {
@@ -225,7 +227,10 @@ public class PersonEditViewController {
             }
 
             if (isNew) {
-                mainApp.getPersonData().add(person);
+                int maxKey = Collections.max(mainApp.getPersonDataMap().keySet()) + 1; // Creates the highest number ID
+                person.setID(maxKey); // Sets the person's ID
+                mainApp.getPersonData().add(person); // Adds the person to the Observable List
+                mainApp.getPersonDataMap().put(maxKey, person); // Adds the person to the Observable Map
             } else {
 
             }

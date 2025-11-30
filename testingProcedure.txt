@@ -1,14 +1,47 @@
-- Test Saving
 - Test Loading
+- Test Saving
 - Test to see if all things saved are loaded (this can probably be broken down)
 
 - Test Create Person
-Click "Edit..".
+Click "New...".
 Enter a first name: Ex. "James"
 Enter a middle name: Ex. "Lynn"
 Enter a last name: Ex. "Crocker"
 Enter a date of birth: Ex. "03/29/2005"
-Enter the amount of parents: 3
-Enter the amount of children: 2
+Enter a biography
+Click "OK"
+See if person shows up in the table to the left.
 
-See if all tests show correctly.
+- Test Edit Person
+Click "Edit...".
+Update the first name.
+Update the middle name.
+update the last name.
+Update the date of birth.
+Update the biography
+Click "OK"
+See if person's information is updated.
+
+- Test Delete Person
+Click the created person.
+Press "Delete..."
+See if person was removed from the list.
+
+- Test adding a Parent to a Child
+- Test removing a Parent from a Child
+
+- Test adding a Child to a Parent
+- Test removing a Child from a Parent
+
+- Test Visibility of the Graph View
+
+- Test Save/Load with parent-child connection
+
+
+
+
+
+
+
+
+

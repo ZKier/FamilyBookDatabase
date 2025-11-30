@@ -42,6 +42,7 @@ public class RootLayoutController {
 		
 		if (file != null) {
 			mainApp.loadPersonDataFromFile(file);
+			//mainApp.showPersonOverview();
 		}
 	}
 	

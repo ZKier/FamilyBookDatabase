@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -39,10 +40,10 @@ public class BirthdayStatisticsController {
 	 * Sets the persons to show the statistics for.
 	 * @param persons
 	 */
-	public void setPersonData(@SuppressWarnings("exports") ObservableList<Person> persons) {
+	public void setPersonData(@SuppressWarnings("exports") ObservableMap<Integer, Person> persons) {
 		// Count the number of people having their birthday in a specific month
 		int[] monthCounter = new int[12];
-		for (Person p : persons) {
+		for (Person p : persons.values()) {
 			int month = p.getDateOfBirth().getMonthValue() - 1;
 			monthCounter[month]++;
 		}
