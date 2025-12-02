@@ -227,7 +227,10 @@ public class PersonEditViewController {
             }
 
             if (isNew) {
-                int maxKey = Collections.max(mainApp.getPersonDataMap().keySet()) + 1; // Creates the highest number ID
+                int maxKey = -1;
+                if (!mainApp.getPersonDataMap().isEmpty()) {
+                    maxKey = Collections.max(mainApp.getPersonDataMap().keySet()) + 1; // Creates the highest number ID
+                }
                 person.setID(maxKey); // Sets the person's ID
                 mainApp.getPersonData().add(person); // Adds the person to the Observable List
                 mainApp.getPersonDataMap().put(maxKey, person); // Adds the person to the Observable Map
@@ -237,6 +240,7 @@ public class PersonEditViewController {
 
             mainApp.showPersonOverview();
             System.out.println("Input valid");
+            mainApp.setDataIsModified(); // When user attempts to close, they are given a chance to save.
         } else {
             System.out.println("Input not valid");
         }

@@ -257,6 +257,7 @@ public class ParentsChildrenUpdateSceneController {
             person.removeParent(removeIterator.next());
         }
         mainApp.showPersonEditOverviewScene(person, "EMPTY");
+        mainApp.setDataIsModified(); // When user attempts to close, they are given a chance to save.
     }
 
     // OK method for children
@@ -275,6 +276,7 @@ public class ParentsChildrenUpdateSceneController {
             person.removeChild(removeIterator.next());
         }
         mainApp.showPersonEditOverviewScene(person, "EMPTY");
+        mainApp.setDataIsModified(); // When user attempts to close, they are given a chance to save.
     }
 
     // Allows the scene to grab the main application.

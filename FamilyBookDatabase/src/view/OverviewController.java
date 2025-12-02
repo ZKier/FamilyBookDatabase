@@ -138,10 +138,11 @@ public class OverviewController {
     @FXML
     private void handleDeletePerson() {
         int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
-        mainApp.getPersonDataMap().remove(personTable.getItems().get(selectedIndex).getID());
-        personTable.getItems().remove(selectedIndex);
+        // Something selected.
         if (selectedIndex >= 0) {
+            mainApp.getPersonDataMap().remove(personTable.getItems().get(selectedIndex).getID());
             personTable.getItems().remove(selectedIndex);
+            mainApp.setDataIsModified(); // When user attempts to close, they are given a chance to save.
         } else {
         // Nothing selected.
         Alert alert = new Alert(AlertType.WARNING);

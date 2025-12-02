@@ -8,9 +8,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.prefs.Preferences;
 
 import javafx.collections.ObservableMap;
+import javafx.fxml.FXML;
+import javafx.scene.control.ButtonType;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,6 +32,8 @@ import javafx.stage.*;
 import model.Person;
 import view.*;
 
+import static javafx.stage.WindowEvent.WINDOW_CLOSE_REQUEST;
+
 public class MainApp extends Application {
 
     private Stage primaryStage;
@@ -39,6 +44,7 @@ public class MainApp extends Application {
 
 	// Should only have 3 usages
 	private Person person;
+	private boolean isDataModified = false;
     
     public MainApp() {
 		/*
@@ -81,8 +87,44 @@ public class MainApp extends Application {
         initRootLayout();
 
         showPersonOverview();
+
+		// Handle reminding user to save before closing application.
+		this.primaryStage.setOnCloseRequest(this::onCloseWindow);
         
     }
+
+	private void onCloseWindow(WindowEvent event) {
+		if (isDataModified) {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Unsaved Changes");
+			alert.setHeaderText("You have unsaved changes.");
+			alert.setContentText("Do you want to save your changes before exiting?");
+
+			ButtonType saveButton = new ButtonType("Save");
+			ButtonType discardButton = new ButtonType("Discard");
+			ButtonType cancelButton = new ButtonType("Cancel");
+
+			alert.getButtonTypes().setAll(saveButton, discardButton, cancelButton);
+
+			Optional<ButtonType> result = alert.showAndWait();
+
+
+			if (result.isPresent()) {
+				if (result.get() == saveButton) {
+					// Perform save operation here
+					this.fileSaveHandler();
+					isDataModified = false; // Data is now saved
+				} else if (result.get() == discardButton) {
+					// User chose to discard changes, do nothing
+					System.out.println("Discarding changes...");
+				} else if (result.get() == cancelButton) {
+					// Consume the event to prevent closing
+					event.consume();
+					System.out.println("Close cancelled.");
+				}
+			}
+		}
+	}
     
     // Initializes the root layout.
     public void initRootLayout() {
@@ -291,6 +333,38 @@ public class MainApp extends Application {
 	        primaryStage.setTitle("Family Book Database");
 	    }
 	}
+
+	public void fileSaveHandler() {
+		File personFile = this.getPersonFilePath();
+		if (personFile != null) {
+			this.savePersonDataToFile(personFile);
+		} else {
+			fileSaveAsHandler();
+		}
+	}
+
+	/**
+	 *  Saves the information as a new file
+	 */
+
+	public void fileSaveAsHandler() {
+		// Opens a file chooser
+		FileChooser fileChooser = new FileChooser();
+		// Set an extension filter("Description", "*.ext1")
+		FileChooser.ExtensionFilter extensionFilt = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
+		fileChooser.getExtensionFilters().add(extensionFilt);
+
+		// Show save file dialog
+		File file = fileChooser.showSaveDialog(this.getPrimaryStage());
+
+		if (file != null) {
+			// Make sure it has the correct extension
+			if (!file.getPath().endsWith(".json")) {
+				file = new File(file.getPath() + ".json");
+			}
+			this.savePersonDataToFile(file);
+		}
+	}
 	
 	/**
 	 *  Saves Person data to a file
@@ -315,6 +389,7 @@ public class MainApp extends Application {
 			
 			// Save the file path to the registry
 			setPersonFilePath(file);
+			setDataNotModified(); // Make sure when exiting it doesn't pull up the modify screen.
 			
 		} catch (Exception e) {
 	        Alert alert = new Alert(AlertType.ERROR);
@@ -582,4 +657,13 @@ public class MainApp extends Application {
 	public void setPerson(Person person) {
 		this.person = person;
 	}
+
+	public void setDataIsModified() {
+		this.isDataModified = true;
+	}
+
+	public void setDataNotModified() {
+		this.isDataModified = false;
+	}
+
 }

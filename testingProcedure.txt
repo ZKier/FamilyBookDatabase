@@ -37,7 +37,9 @@ See if person was removed from the list.
 
 - Test Save/Load with parent-child connection
 
-
+- Test Adding a person from an empty set
+- Test closing the window after adding a user and not pressing file > save
+- Test closing the window after editing a user and not pressing file > save
 
 
 
